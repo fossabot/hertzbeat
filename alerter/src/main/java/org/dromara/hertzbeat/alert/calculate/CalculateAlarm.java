@@ -22,8 +22,10 @@ import com.googlecode.aviator.Expression;
 import com.googlecode.aviator.exception.CompileExpressionErrorException;
 import com.googlecode.aviator.exception.ExpressionRuntimeException;
 import com.googlecode.aviator.exception.ExpressionSyntaxErrorException;
-import org.dromara.hertzbeat.alert.AlerterProperties;
 import org.dromara.hertzbeat.alert.AlerterWorkerPool;
+import org.dromara.hertzbeat.alert.dao.AlertDao;
+import org.dromara.hertzbeat.alert.reduce.AlarmCommonReduce;
+import org.dromara.hertzbeat.alert.service.AlertService;
 import org.dromara.hertzbeat.common.queue.CommonDataQueue;
 import org.dromara.hertzbeat.alert.dao.AlertMonitorDao;
 import org.dromara.hertzbeat.common.entity.alerter.Alert;
@@ -37,16 +39,21 @@ import org.dromara.hertzbeat.common.util.CommonUtil;
 import org.dromara.hertzbeat.common.util.ResourceBundleUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Predicate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static org.dromara.hertzbeat.common.constants.CommonConstants.ALERT_STATUS_CODE_PENDING;
+import static org.dromara.hertzbeat.common.constants.CommonConstants.ALERT_STATUS_CODE_SOLVED;
+
 /**
  * Calculate alarms based on the alarm definition rules and collected data
  * 根据告警定义规则和采集数据匹配计算告警
- * @author tom
  *
+ * @author tom
  */
 @Configuration
 @Slf4j
@@ -59,24 +66,22 @@ public class CalculateAlarm {
      * key - monitorId 为监控状态可用性可达性告警 ｜ Indicates the monitoring status availability reachability alarm
      */
     public Map<String, Alert> triggeredAlertMap;
-    
     public Set<Long> unAvailableMonitors;
-
     private final AlerterWorkerPool workerPool;
     private final CommonDataQueue dataQueue;
     private final AlertDefineService alertDefineService;
-    private final AlerterProperties alerterProperties;
-    private final SilenceAlarm silenceAlarm;
+    private final AlarmCommonReduce alarmCommonReduce;
     private final ResourceBundle bundle;
+    private final AlertService alertService;
 
-    public CalculateAlarm (AlerterWorkerPool workerPool, CommonDataQueue dataQueue, SilenceAlarm silenceAlarm,
-                           AlertDefineService alertDefineService, AlertMonitorDao monitorDao,
-                           AlerterProperties alerterProperties) {
+    public CalculateAlarm(AlerterWorkerPool workerPool, CommonDataQueue dataQueue,
+                          AlertDefineService alertDefineService, AlertMonitorDao monitorDao,
+                          AlarmCommonReduce alarmCommonReduce,  AlertService alertService) {
         this.workerPool = workerPool;
         this.dataQueue = dataQueue;
-        this.silenceAlarm = silenceAlarm;
+        this.alarmCommonReduce = alarmCommonReduce;
         this.alertDefineService = alertDefineService;
-        this.alerterProperties = alerterProperties;
+        this.alertService = alertService;
         this.bundle = ResourceBundleUtil.getBundle("alerter");
         this.triggeredAlertMap = new ConcurrentHashMap<>(128);
         this.unAvailableMonitors = Collections.synchronizedSet(new HashSet<>(16));
@@ -158,7 +163,8 @@ public class CalculateAlarm {
                             try {
                                 Expression expression = AviatorEvaluator.compile(expr, true);
                                 match = (Boolean) expression.execute(fieldValueMap);
-                            } catch (CompileExpressionErrorException | ExpressionSyntaxErrorException compileException) {
+                            } catch (CompileExpressionErrorException |
+                                     ExpressionSyntaxErrorException compileException) {
                                 log.error("Alert Define Rule: {} Compile Error: {}.", expr, compileException.getMessage());
                             } catch (ExpressionRuntimeException expressionRuntimeException) {
                                 log.error("Alert Define Rule: {} Run Error: {}.", expr, expressionRuntimeException.getMessage());
@@ -172,13 +178,14 @@ public class CalculateAlarm {
                                 String monitorAlertKey = String.valueOf(monitorId) + define.getId();
                                 Alert triggeredAlert = triggeredAlertMap.get(monitorAlertKey);
                                 if (triggeredAlert != null) {
-                                    int times = triggeredAlert.getTimes() + 1;
-                                    triggeredAlert.setTimes(times);
-                                    triggeredAlert.setLastTriggerTime(currentTimeMilli);
+                                    int times = triggeredAlert.getTriggerTimes() + 1;
+                                    triggeredAlert.setTriggerTimes(times);
+                                    triggeredAlert.setFirstAlarmTime(currentTimeMilli);
+                                    triggeredAlert.setLastAlarmTime(currentTimeMilli);
                                     int defineTimes = define.getTimes() == null ? 1 : define.getTimes();
                                     if (times >= defineTimes) {
                                         triggeredAlertMap.remove(monitorAlertKey);
-                                        silenceAlarm.filterSilenceAndSendData(triggeredAlert);
+                                        alarmCommonReduce.reduceAndSendAlarm(triggeredAlert.clone());
                                     }
                                 } else {
                                     fieldValueMap.put("app", app);
@@ -191,18 +198,18 @@ public class CalculateAlarm {
                                             .tags(tags)
                                             .alertDefineId(define.getId())
                                             .priority(define.getPriority())
-                                            .status(CommonConstants.ALERT_STATUS_CODE_PENDING)
+                                            .status(ALERT_STATUS_CODE_PENDING)
                                             .target(app + "." + metrics + "." + define.getField())
-                                            .times(1)
-                                            .firstTriggerTime(currentTimeMilli)
-                                            .lastTriggerTime(currentTimeMilli)
+                                            .triggerTimes(1)
+                                            .firstAlarmTime(currentTimeMilli)
+                                            .lastAlarmTime(currentTimeMilli)
                                             // Keyword matching and substitution in the template
                                             // 模板中关键字匹配替换
                                             .content(AlertTemplateUtil.render(define.getTemplate(), fieldValueMap))
                                             .build();
                                     int defineTimes = define.getTimes() == null ? 1 : define.getTimes();
                                     if (1 >= defineTimes) {
-                                        silenceAlarm.filterSilenceAndSendData(alert);
+                                        alarmCommonReduce.reduceAndSendAlarm(alert);
                                     } else {
                                         triggeredAlertMap.put(monitorAlertKey, alert);
                                     }
@@ -261,11 +268,15 @@ public class CalculateAlarm {
                         .content(content)
                         .priority(CommonConstants.ALERT_PRIORITY_CODE_WARNING)
                         .status(CommonConstants.ALERT_STATUS_CODE_RESTORED)
-                        .firstTriggerTime(currentTimeMilli)
-                        .lastTriggerTime(currentTimeMilli)
-                        .times(1)
+                        .firstAlarmTime(currentTimeMilli)
+                        .lastAlarmTime(currentTimeMilli)
+                        .triggerTimes(1)
                         .build();
-                silenceAlarm.filterSilenceAndSendData(resumeAlert);
+                alarmCommonReduce.reduceAndSendAlarm(resumeAlert);
+                Runnable updateStatusJob = () -> {
+                    updateAvailabilityAlertStatus(monitorId, resumeAlert);
+                };
+                workerPool.executeJob(updateStatusJob);
             }
         }
     }
@@ -288,37 +299,71 @@ public class CalculateAlarm {
             Alert.AlertBuilder alertBuilder = Alert.builder()
                     .tags(tags)
                     .priority(CommonConstants.ALERT_PRIORITY_CODE_EMERGENCY)
-                    .status(CommonConstants.ALERT_STATUS_CODE_PENDING)
+                    .status(ALERT_STATUS_CODE_PENDING)
                     .target(CommonConstants.AVAILABILITY)
                     .content(AlertTemplateUtil.render(avaAlertDefine.getTemplate(), valueMap))
-                    .firstTriggerTime(currentTimeMill)
-                    .lastTriggerTime(currentTimeMill)
-                    .nextEvalInterval(alerterProperties.getAlertEvalIntervalBase())
-                    .times(1);
+                    .firstAlarmTime(currentTimeMill)
+                    .lastAlarmTime(currentTimeMill)
+                    .triggerTimes(1);
             if (avaAlertDefine.getTimes() == null || avaAlertDefine.getTimes() <= 1) {
-                silenceAlarm.filterSilenceAndSendData(alertBuilder.build().clone());
+                alarmCommonReduce.reduceAndSendAlarm(alertBuilder.build().clone());
                 unAvailableMonitors.add(monitorId);
             } else {
                 alertBuilder.status(CommonConstants.ALERT_STATUS_CODE_NOT_REACH);
             }
             triggeredAlertMap.put(String.valueOf(monitorId), alertBuilder.build());
         } else {
-            int times = preAlert.getTimes() + 1;
-            if (preAlert.getStatus() == CommonConstants.ALERT_STATUS_CODE_PENDING) {
+            int times = preAlert.getTriggerTimes() + 1;
+            if (preAlert.getStatus() == ALERT_STATUS_CODE_PENDING) {
                 times = 1;
                 preAlert.setContent(AlertTemplateUtil.render(avaAlertDefine.getTemplate(), valueMap));
                 preAlert.setTags(tags);
             }
-            preAlert.setTimes(times);
-            preAlert.setLastTriggerTime(currentTimeMill);
+            preAlert.setTriggerTimes(times);
+            preAlert.setFirstAlarmTime(currentTimeMill);
+            preAlert.setLastAlarmTime(currentTimeMill);
             int defineTimes = avaAlertDefine.getTimes() == null ? 1 : avaAlertDefine.getTimes();
             if (times >= defineTimes) {
-                preAlert.setStatus(CommonConstants.ALERT_STATUS_CODE_PENDING);
-                silenceAlarm.filterSilenceAndSendData(preAlert);
+                preAlert.setStatus(ALERT_STATUS_CODE_PENDING);
+                alarmCommonReduce.reduceAndSendAlarm(preAlert.clone());
                 unAvailableMonitors.add(monitorId);
             } else {
                 preAlert.setStatus(CommonConstants.ALERT_STATUS_CODE_NOT_REACH);
             }
         }
+    }
+
+
+    private void updateAvailabilityAlertStatus(long monitorId, Alert restoreAlert) {
+        List<Alert> availabilityAlerts = queryAvailabilityAlerts(monitorId, restoreAlert);
+        availabilityAlerts.stream().parallel().forEach(alert -> {
+            log.info("updating alert id:{}",alert.getId());
+            alertService.editAlertStatus(ALERT_STATUS_CODE_SOLVED, List.of(alert.getId()));
+        });
+    }
+
+    private List<Alert> queryAvailabilityAlerts(long monitorId, Alert restoreAlert) {
+        //create query condition
+        Specification<Alert> specification = (root, query, criteriaBuilder) -> {
+            List<Predicate> andList = new ArrayList<>();
+
+            Predicate predicateTags = criteriaBuilder.like(root.get("tags").as(String.class), "%" + monitorId + "%");
+            andList.add(predicateTags);
+
+            Predicate predicatePriority = criteriaBuilder.equal(root.get("priority"), CommonConstants.ALERT_PRIORITY_CODE_EMERGENCY);
+            andList.add(predicatePriority);
+
+            Predicate predicateStatus = criteriaBuilder.equal(root.get("status"), ALERT_STATUS_CODE_PENDING);
+            andList.add(predicateStatus);
+
+            Predicate predicateAlertTime = criteriaBuilder.lessThanOrEqualTo(root.get("lastAlarmTime"), restoreAlert.getLastAlarmTime());
+            andList.add(predicateAlertTime);
+
+            Predicate[] predicates = new Predicate[andList.size()];
+            return criteriaBuilder.and(andList.toArray(predicates));
+        };
+
+        //query results
+        return alertService.getAlerts(specification);
     }
 }

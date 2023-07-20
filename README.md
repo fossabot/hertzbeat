@@ -8,7 +8,7 @@
 
 ## HertzBeat | [中文文档](README_CN.md)   
 
-> An open source, real-time monitoring system with custom-monitor and agentLess. | 易用友好的开源实时监控告警系统，无需Agent，强大自定义监控能力.   
+> An open source, real-time monitoring system with custom-monitoring and agentLess. | 易用友好的开源实时监控告警系统，无需Agent，强大自定义监控能力.   
 
 [![discord](https://img.shields.io/badge/chat-on%20discord-brightgreen)](https://discord.gg/Fb6M73htGr)
 [![Gitter](https://badges.gitter.im/hertzbeat/community.svg)](https://gitter.im/hertzbeat/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -30,9 +30,10 @@
 
 ## 🎡 <font color="green">Introduction</font>
 
-> [HertzBeat](https://github.com/dromara/hertzbeat) is an open source, real-time monitoring system with custom-monitor and agentless.       
-> **Monitor+Alerter+Notify** all in one. Support monitoring web service, database, os, middleware, cloud-native, network and more.            
-> More flexible threshold rule(calculation expression), timely notification delivery by `Discord` `Slack` `Telegram` `Email` `DingDing` `WeChat` `FeiShu` `Webhook` `SMS`.  
+> [HertzBeat](https://github.com/dromara/hertzbeat) is an open source, real-time monitoring system with custom-monitoring and agentLess.
+> **Monitoring+Alarm+Notify** all in one. Support monitoring web service, database, os, middleware, cloud-native, network and more.      
+> Easy to use, full web-based operation, monitoring and alerting at the click of a mouse, zero learning cost.     
+> More flexible threshold rule, timely notification delivery by `Discord` `Slack` `Telegram` `Email` `DingDing` `WeChat` `FeiShu` `Webhook` `SMS`.  
 
 > We make protocols such as `Http, Jmx, Ssh, Snmp, Jdbc` configurable, and you only need to configure `YML` online to collect any metrics you want.     
 > Do you believe that you can immediately adapt a new monitoring type such as K8s or Docker just by configuring online?   
@@ -100,7 +101,13 @@
 
 ##### 1：Install quickly via docker   
 
-1. Just one command to get started: `docker run -d -p 1157:1157 --name hertzbeat tancloud/hertzbeat` 
+1. Just one command to get started:
+
+```docker run -d -p 1157:1157 --name hertzbeat tancloud/hertzbeat```
+
+```or use quay.io (if dockerhub network connect timeout)```
+
+```docker run -d -p 1157:1157 --name hertzbeat quay.io/tancloud/hertzbeat```
 
 2. Access `localhost:1157` to start, default account: `admin/hertzbeat`  
 
@@ -306,6 +313,17 @@ Thanks these wonderful people, welcome to join us:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/baixing99"><img src="https://avatars.githubusercontent.com/u/73473087?v=4?s=100" width="100px;" alt="baixing99"/><br /><sub><b>baixing99</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=baixing99" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ifrenzyc"><img src="https://avatars.githubusercontent.com/u/543927?v=4?s=100" width="100px;" alt="Yang Chuang"/><br /><sub><b>Yang Chuang</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ifrenzyc" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/wlin20"><img src="https://avatars.githubusercontent.com/u/20657577?v=4?s=100" width="100px;" alt="wlin20"/><br /><sub><b>wlin20</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=wlin20" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/guojing1983"><img src="https://avatars.githubusercontent.com/u/60596094?v=4?s=100" width="100px;" alt="guojing1983"/><br /><sub><b>guojing1983</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=guojing1983" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/itxxq"><img src="https://avatars.githubusercontent.com/u/46962357?v=4?s=100" width="100px;" alt="moxi"/><br /><sub><b>moxi</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=itxxq" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/qq471754603"><img src="https://avatars.githubusercontent.com/u/23146592?v=4?s=100" width="100px;" alt="qq471754603"/><br /><sub><b>qq471754603</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=qq471754603" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/san346596324"><img src="https://avatars.githubusercontent.com/u/30828520?v=4?s=100" width="100px;" alt="渭雨"/><br /><sub><b>渭雨</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=san346596324" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/luoxuanzao"><img src="https://avatars.githubusercontent.com/u/44692579?v=4?s=100" width="100px;" alt="liuxuezhuo"/><br /><sub><b>liuxuezhuo</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=luoxuanzao" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/lisongning"><img src="https://avatars.githubusercontent.com/u/93140178?v=4?s=100" width="100px;" alt="lisongning"/><br /><sub><b>lisongning</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=lisongning" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/YutingNie"><img src="https://avatars.githubusercontent.com/u/104416402?v=4?s=100" width="100px;" alt="YutingNie"/><br /><sub><b>YutingNie</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=YutingNie" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mikezzb"><img src="https://avatars.githubusercontent.com/u/23418428?v=4?s=100" width="100px;" alt="Mike Zhou"/><br /><sub><b>Mike Zhou</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=mikezzb" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/a-little-fool"><img src="https://avatars.githubusercontent.com/u/105542329?v=4?s=100" width="100px;" alt="小笨蛋"/><br /><sub><b>小笨蛋</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=a-little-fool" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
@@ -317,7 +335,7 @@ Thanks these wonderful people, welcome to join us:
 
 ## 💬 Join discussion  
 
-HertzBeat is a top project under the [Dromara Open Source Community](https://dromara.org/).
+HertzBeat is a top project under the [Dromara Open Source Community](https://dromara.org/). Gitee GVP.
 
 ##### Channel
 

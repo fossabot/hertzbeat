@@ -32,7 +32,8 @@
 
 > [HertzBeat赫兹跳动](https://github.com/dromara/hertzbeat) 是一个拥有强大自定义监控能力，无需 Agent 的开源实时监控告警系统。     
 > 集 **监控+告警+通知** 为一体，支持对应用服务，数据库，操作系统，中间件，云原生，网络等监控，阈值告警通知一步到位。   
-> 更自由化的阈值规则(计算表达式)，`邮件` `Discord` `Slack` `Telegram` `钉钉` `微信` `飞书` `短信` `Webhook` 等方式及时送达。             
+> 易用友好，全 WEB 页面操作，鼠标点一点就能监控告警，零上手学习成本。    
+> 更自由化的阈值规则，`邮件` `Discord` `Slack` `Telegram` `钉钉` `微信` `飞书` `短信` `Webhook` 等方式及时送达。             
 
 > 我们将`Http,Jmx,Ssh,Snmp,Jdbc`等协议规范可配置化，您只需在浏览器配置`YML`就能使用这些协议去自定义采集任何您想要的指标。    
 > 您相信只需配置下就能立刻适配一款`K8s`或`Docker`等新的监控类型吗？   
@@ -99,7 +100,11 @@
 
 1. `docker` 环境仅需一条命令即可开始     
 
-`docker run -d -p 1157:1157 --name hertzbeat tancloud/hertzbeat` 
+```docker run -d -p 1157:1157 --name hertzbeat tancloud/hertzbeat```
+
+```或者使用 quay.io (若 dockerhub 网络链接超时)```
+
+```docker run -d -p 1157:1157 --name hertzbeat quay.io/tancloud/hertzbeat```
 
 2. 浏览器访问 `localhost:1157` 即可开始，默认账号密码 `admin/hertzbeat`
 
@@ -303,6 +308,17 @@ Thanks these wonderful people, welcome to join us:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/baixing99"><img src="https://avatars.githubusercontent.com/u/73473087?v=4?s=100" width="100px;" alt="baixing99"/><br /><sub><b>baixing99</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=baixing99" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ifrenzyc"><img src="https://avatars.githubusercontent.com/u/543927?v=4?s=100" width="100px;" alt="Yang Chuang"/><br /><sub><b>Yang Chuang</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ifrenzyc" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/wlin20"><img src="https://avatars.githubusercontent.com/u/20657577?v=4?s=100" width="100px;" alt="wlin20"/><br /><sub><b>wlin20</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=wlin20" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/guojing1983"><img src="https://avatars.githubusercontent.com/u/60596094?v=4?s=100" width="100px;" alt="guojing1983"/><br /><sub><b>guojing1983</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=guojing1983" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/itxxq"><img src="https://avatars.githubusercontent.com/u/46962357?v=4?s=100" width="100px;" alt="moxi"/><br /><sub><b>moxi</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=itxxq" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/qq471754603"><img src="https://avatars.githubusercontent.com/u/23146592?v=4?s=100" width="100px;" alt="qq471754603"/><br /><sub><b>qq471754603</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=qq471754603" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/san346596324"><img src="https://avatars.githubusercontent.com/u/30828520?v=4?s=100" width="100px;" alt="渭雨"/><br /><sub><b>渭雨</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=san346596324" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/luoxuanzao"><img src="https://avatars.githubusercontent.com/u/44692579?v=4?s=100" width="100px;" alt="liuxuezhuo"/><br /><sub><b>liuxuezhuo</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=luoxuanzao" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/lisongning"><img src="https://avatars.githubusercontent.com/u/93140178?v=4?s=100" width="100px;" alt="lisongning"/><br /><sub><b>lisongning</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=lisongning" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/YutingNie"><img src="https://avatars.githubusercontent.com/u/104416402?v=4?s=100" width="100px;" alt="YutingNie"/><br /><sub><b>YutingNie</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=YutingNie" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mikezzb"><img src="https://avatars.githubusercontent.com/u/23418428?v=4?s=100" width="100px;" alt="Mike Zhou"/><br /><sub><b>Mike Zhou</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=mikezzb" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/a-little-fool"><img src="https://avatars.githubusercontent.com/u/105542329?v=4?s=100" width="100px;" alt="小笨蛋"/><br /><sub><b>小笨蛋</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=a-little-fool" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
@@ -314,7 +330,7 @@ Thanks these wonderful people, welcome to join us:
 
 ## 💬 社区交流
 
-HertzBeat 赫兹跳动是 [Dromara开源社区](https://dromara.org/) 下顶级项目。   
+HertzBeat 赫兹跳动是 [Dromara开源社区](https://dromara.org/) 下顶级项目。Gitee GVP。   
 
 ##### 微信交流群
 
