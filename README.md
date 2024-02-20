@@ -54,6 +54,7 @@
 ## 🥐 Architecture   
 
 ![hertzBeat](home/static/img/docs/hertzbeat-arch.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftomsun28%2Fhertzbeat.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftomsun28%2Fhertzbeat?ref=badge_shield)
 
 ## ⛄ Supported   
 
@@ -485,3 +486,6 @@ CNCF Observability And Analysis - Monitoring Landscape.</a>
 
 ## 🛡️ License
 [`Apache License, Version 2.0`](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Ftomsun28%2Fhertzbeat.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Ftomsun28%2Fhertzbeat?ref=badge_large)
