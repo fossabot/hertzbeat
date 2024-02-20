@@ -20,10 +20,9 @@ package org.dromara.hertzbeat.common.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * common properties
+ * common module properties
  *
  * @author tom
- *
  */
 @ConfigurationProperties(prefix = "common")
 public class CommonProperties {
@@ -95,6 +94,8 @@ public class CommonProperties {
         Memory,
         /** kafka **/
         Kafka,
+        /** with netty connect **/
+        Netty,
         /** rabbit mq **/
         Rabbit_Mq
     }

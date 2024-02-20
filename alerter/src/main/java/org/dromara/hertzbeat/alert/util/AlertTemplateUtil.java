@@ -27,7 +27,6 @@ import java.util.regex.Pattern;
  * Alarm template keyword matching replacement engine tool
  * 告警模版关键字匹配替换引擎工具
  * @author tom
- *
  */
 @Slf4j
 public class AlertTemplateUtil {
@@ -40,16 +39,19 @@ public class AlertTemplateUtil {
     private static final Pattern PATTERN = Pattern.compile("\\$\\{(\\w+)\\}");
 
     public static String render(String template, Map<String, Object> replaceData) {
+        if (template == null) {
+            return null;  
+        }
         try {
             Matcher matcher = PATTERN.matcher(template);
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder builder = new StringBuilder();
             while (matcher.find()) {
                 Object objectValue = replaceData.getOrDefault(matcher.group(1), "NullValue");
                 String value = objectValue.toString();
-                matcher.appendReplacement(buffer, value);
+                matcher.appendReplacement(builder, Matcher.quoteReplacement(value));
             }
-            matcher.appendTail(buffer);
-            return buffer.toString();
+            matcher.appendTail(builder);
+            return builder.toString();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return template;

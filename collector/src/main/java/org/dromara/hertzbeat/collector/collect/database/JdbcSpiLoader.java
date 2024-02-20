@@ -19,17 +19,17 @@ package org.dromara.hertzbeat.collector.collect.database;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 /**
- * 预加载jdbc驱动包 避免spi并发加载造成死锁
+ * load the jdbc driver first to avoid spi concurrent deadlock
  * @author tom
- *
  */
 @Service
 @Slf4j
-@Order(value = 0)
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class JdbcSpiLoader implements CommandLineRunner {
 
 

@@ -24,9 +24,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * ssh 协议参数配置
- *
  * @author tom
- *
  */
 @Data
 @Builder
@@ -63,6 +61,11 @@ public class SshProtocol {
      * 私钥(可选)
      */
     private String privateKey;
+    
+    /**
+     * reuse connection session
+     */
+    private String reuseConnection = "true";
 
     /**
      * SSH执行脚本

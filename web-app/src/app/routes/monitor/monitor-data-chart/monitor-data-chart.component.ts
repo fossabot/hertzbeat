@@ -37,9 +37,14 @@ export class MonitorDataChartComponent implements OnInit {
   constructor(private monitorSvc: MonitorService, @Inject(ALAIN_I18N_TOKEN) private i18nSvc: I18NService) {}
 
   ngOnInit(): void {
+    let metricsI18n = this.i18nSvc.fanyi(`monitor.app.${this.app}.metrics.${this.metrics}`);
+    let metricI18n = this.i18nSvc.fanyi(`monitor.app.${this.app}.metrics.${this.metrics}.metric.${this.metric}`);
+    let title = `${metricsI18n == `monitor.app.${this.app}.metrics.${this.metrics}` ? this.metrics : metricsI18n}/${
+      metricI18n == `monitor.app.${this.app}.metrics.${this.metrics}.metric.${this.metric}` ? this.metric : metricI18n
+    }`;
     this.lineHistoryTheme = {
       title: {
-        text: `${this.metrics}.${this.metric}`,
+        text: title,
         textStyle: {
           fontSize: 16,
           fontFamily: 'monospace',
@@ -192,7 +197,7 @@ export class MonitorDataChartComponent implements OnInit {
     };
     if (this.unit != undefined || this.unit != null) {
       // @ts-ignore
-      this.lineHistoryTheme.title?.subtext = `${this.i18nSvc.fanyi('monitors.detail.chart.unit')}  ${this.unit}`;
+      this.lineHistoryTheme.title.subtext = `${this.i18nSvc.fanyi('monitors.detail.chart.unit')}  ${this.unit}`;
     }
     this.loadData();
   }
@@ -225,20 +230,19 @@ export class MonitorDataChartComponent implements OnInit {
             if (!isInterval || legend.length > 1) {
               if (legend.length > 1) {
                 this.lineHistoryTheme.legend = {
-                  orient: 'vertical',
+                  type: 'scroll',
+                  orient: 'horizontal',
                   align: 'auto',
-                  right: '10%',
-                  top: '10%',
+                  bottom: 40,
+                  pageIconSize: 10,
+                  pageButtonGap: 10,
+                  pageButtonPosition: 'end',
                   data: legend
                 };
               }
               this.lineHistoryTheme.series = [];
-              let maxLegend = 5;
               let valueKeyArr = Object.keys(values);
               for (let index = 0; index < valueKeyArr.length; index++) {
-                if (maxLegend-- <= 0) {
-                  break;
-                }
                 let key = valueKeyArr[index];
                 let seriesData: Array<{ value: any }> = [];
                 values[key].forEach((item: { time: number; origin: any }) => {
@@ -246,7 +250,6 @@ export class MonitorDataChartComponent implements OnInit {
                     value: [item.time, item.origin]
                   });
                 });
-                // @ts-ignore
                 this.lineHistoryTheme.series.push({
                   name: key,
                   type: 'line',

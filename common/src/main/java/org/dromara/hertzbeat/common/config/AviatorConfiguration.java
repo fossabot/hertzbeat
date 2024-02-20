@@ -18,6 +18,9 @@
 package org.dromara.hertzbeat.common.config;
 
 import com.googlecode.aviator.AviatorEvaluator;
+import com.googlecode.aviator.AviatorEvaluatorInstance;
+import com.googlecode.aviator.Feature;
+import com.googlecode.aviator.Options;
 import com.googlecode.aviator.lexer.token.OperatorType;
 import com.googlecode.aviator.runtime.function.AbstractFunction;
 import com.googlecode.aviator.runtime.type.*;
@@ -27,11 +30,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
+ * aviator config
  * @author tomsun28
- *
  */
 @Configuration
 @Slf4j
@@ -41,13 +45,25 @@ public class AviatorConfiguration {
 
     @Bean
     public void configAviatorEvaluator() {
+        AviatorEvaluatorInstance instance = AviatorEvaluator.getInstance();
+
         // 配置AviatorEvaluator使用LRU缓存编译后的表达式
-        AviatorEvaluator.getInstance()
+        instance
                 .useLRUExpressionCache(AVIATOR_LRU_CACHE_SIZE)
                 .addFunction(new StrEqualFunction());
 
+        // limit loop 限制循环次数
+        instance.setOption(Options.MAX_LOOP_COUNT, 10);
+        
+        // 启用部分Aviator语法特性集合
+        instance.setOption(Options.FEATURE_SET,
+                Feature.asSet(Feature.If,
+                        Feature.Assignment,
+                        Feature.Let,
+                        Feature.StringInterpolation));
+
         // 配置自定义aviator函数
-        AviatorEvaluator.getInstance().addOpFunction(OperatorType.BIT_OR, new AbstractFunction() {
+        instance.addOpFunction(OperatorType.BIT_OR, new AbstractFunction() {
             @Override
             public AviatorObject call(final Map<String, Object> env, final AviatorObject arg1,
                                       final AviatorObject arg2) {
@@ -71,9 +87,9 @@ public class AviatorConfiguration {
             }
         });
 
-        AviatorEvaluator.getInstance().addFunction(new StrContainsFunction());
-        AviatorEvaluator.getInstance().addFunction(new StrExistsFunction());
-        AviatorEvaluator.getInstance().addFunction(new StrMatchesFunction());
+        instance.addFunction(new StrContainsFunction());
+        instance.addFunction(new ObjectExistsFunction());
+        instance.addFunction(new StrMatchesFunction());
     }
 
     /**
@@ -125,20 +141,21 @@ public class AviatorConfiguration {
     }
 
     /**
-     * 自定义aviator判断环境中是否存在字符串
+     * 自定义aviator判断环境中此对象是否存在值
      */
-    private static class StrExistsFunction extends AbstractFunction {
+    private static class ObjectExistsFunction extends AbstractFunction {
         @Override
         public AviatorObject call(Map<String, Object> env, AviatorObject arg) {
             if (arg == null) {
                 return AviatorBoolean.FALSE;
             }
             Object keyTmp = arg.getValue(env);
-            if (keyTmp == null) {
+            if (Objects.isNull(keyTmp)) {
                 return AviatorBoolean.FALSE;
+            } else {
+                String key = String.valueOf(keyTmp);
+                return AviatorBoolean.valueOf(StringUtils.isNotEmpty(key));
             }
-            String key = String.valueOf(keyTmp);
-            return AviatorBoolean.valueOf(env.containsKey(key));
         }
         @Override
         public String getName() {

@@ -66,11 +66,11 @@ export class SettingTagsComponent implements OnInit {
 
   onDeleteTags() {
     if (this.checkedTagIds == null || this.checkedTagIds.size === 0) {
-      this.notifySvc.warning(this.i18nSvc.fanyi('alert.center.notify.no-delete'), '');
+      this.notifySvc.warning(this.i18nSvc.fanyi('common.notify.no-select-delete'), '');
       return;
     }
     this.modal.confirm({
-      nzTitle: this.i18nSvc.fanyi('alert.center.confirm.delete-batch'),
+      nzTitle: this.i18nSvc.fanyi('common.confirm.delete-batch'),
       nzOkText: this.i18nSvc.fanyi('common.button.ok'),
       nzCancelText: this.i18nSvc.fanyi('common.button.cancel'),
       nzOkDanger: true,
@@ -162,6 +162,9 @@ export class SettingTagsComponent implements OnInit {
     this.tag.name = this.tag.name.trim();
     if (this.tag.value != undefined) {
       this.tag.value = this.tag.value.trim();
+    }
+    if (this.tag.description != undefined) {
+      this.tag.description = this.tag.description.trim();
     }
     if (this.isManageModalAdd) {
       const modalOk$ = this.tagService

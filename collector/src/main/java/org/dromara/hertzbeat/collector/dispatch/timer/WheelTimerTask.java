@@ -19,15 +19,16 @@ package org.dromara.hertzbeat.collector.dispatch.timer;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import lombok.extern.slf4j.Slf4j;
+import org.dromara.hertzbeat.collector.dispatch.DispatchConstants;
 import org.dromara.hertzbeat.collector.dispatch.MetricsTaskDispatch;
 import org.dromara.hertzbeat.collector.util.CollectUtil;
+import org.dromara.hertzbeat.common.constants.CommonConstants;
 import org.dromara.hertzbeat.common.entity.job.Configmap;
 import org.dromara.hertzbeat.common.entity.job.Job;
 import org.dromara.hertzbeat.common.entity.job.Metrics;
 import org.dromara.hertzbeat.common.support.SpringContextHolder;
 import org.dromara.hertzbeat.common.util.AesUtil;
-import org.dromara.hertzbeat.common.constants.CommonConstants;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +37,7 @@ import java.util.stream.Collectors;
 
 /**
  * Timer Task implementation
- * TimerTask实现
- *
  * @author tomsun28
- *
  */
 @Slf4j
 public class WheelTimerTask implements TimerTask {
@@ -52,22 +50,18 @@ public class WheelTimerTask implements TimerTask {
         this.metricsTaskDispatch = SpringContextHolder.getBean(MetricsTaskDispatch.class);
         this.job = job;
         // The initialization job will monitor the actual parameter value and replace the collection field
-        // 初始化job 将监控实际参数值对采集字段进行替换
         initJobMetrics(job);
     }
 
     /**
      * Initialize job fill information
-     * 初始化job填充信息
-     *
      * @param job job
      */
     private void initJobMetrics(Job job) {
-        // 将监控实际参数值对采集字段进行替换
         List<Configmap> config = job.getConfigmap();
         Map<String, Configmap> configmap = config.stream()
                 .peek(item -> {
-                    // 对加密串进行解密
+                    // decode password
                     if (item.getType() == CommonConstants.PARAM_TYPE_PASSWORD && item.getValue() != null) {
                         String decodeValue = AesUtil.aesDecode(String.valueOf(item.getValue()));
                         if (decodeValue == null) {
@@ -85,6 +79,9 @@ public class WheelTimerTask implements TimerTask {
             JsonElement jsonElement = GSON.toJsonTree(metric);
             CollectUtil.replaceSmilingPlaceholder(jsonElement, configmap);
             metric = GSON.fromJson(jsonElement, Metrics.class);
+            if (job.getApp().equals(DispatchConstants.PROTOCOL_PUSH)) {
+                CollectUtil.replaceFieldsForPushStyleMonitor(metric, configmap);
+            }
             metricsTmp.add(metric);
         }
         job.setMetrics(metricsTmp);

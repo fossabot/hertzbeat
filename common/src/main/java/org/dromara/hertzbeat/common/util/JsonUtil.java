@@ -20,17 +20,18 @@ package org.dromara.hertzbeat.common.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
- * gson 工具类
+ * json util
  * @author tomsun28
- *
  */
 @ThreadSafe
 @Slf4j
@@ -41,7 +42,8 @@ public class JsonUtil {
     static {
         OBJECT_MAPPER
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+                .registerModule(new JavaTimeModule());
     }
 
     public static String toJson(Object source) {
@@ -80,4 +82,15 @@ public class JsonUtil {
         }
     }
     
+    public static JsonNode fromJson(String jsonStr) {
+        if (!StringUtils.hasText(jsonStr)) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.readTree(jsonStr);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
 }

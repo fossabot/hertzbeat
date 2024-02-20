@@ -1,6 +1,6 @@
 {
   "version.label": {
-    "message": "v1.3.x",
+    "message": "v1.4.x",
     "description": "The label for version current"
   },
   "sidebar.docs.category.quickstart": {
@@ -52,7 +52,7 @@
     "description": "The label for category notice in sidebar docs"
   },
   "sidebar.docs.category.Others": {
-    "message": "Others",
+    "message": "其它",
     "description": "The label for category Others in sidebar docs"
   },
   "sidebar.docs.category.cloud-native": {
@@ -74,5 +74,29 @@
   "sidebar.docs.category.snmp": {
     "message": "SNMP协议",
     "description": "The label for category snmp in sidebar docs"
+  },
+  "sidebar.docs.link.Install via Helm": {
+    "message": "Kubernetes Helm部署",
+    "description": "The label for link Install via Helm in sidebar docs, linking to https://artifacthub.io/packages/helm/hertzbeat/hertzbeat"
+  },
+  "sidebar.docs.category.push": {
+    "message": "Push",
+    "description": "The label for category push in sidebar docs"
+  },
+  "sidebar.docs.category.program": {
+    "message": "应用程序",
+    "description": "The label for category program in sidebar docs"
+  },
+  "sidebar.docs.category.cache": {
+    "message": "缓存",
+    "description": "The label for category cache in sidebar docs"
+  },
+  "sidebar.docs.category.bigdata": {
+    "message": "大数据",
+    "description": "The label for category bigdata in sidebar docs"
+  },
+  "sidebar.docs.category.webserver": {
+    "message": "Web服务器",
+    "description": "The label for category webserver in sidebar docs"
   }
 }

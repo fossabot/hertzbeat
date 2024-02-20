@@ -29,14 +29,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,9 +44,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * Define the batch API for alarms
- * 告警定义批量API
  * @author tom
- *
  */
 @Tag(name = "Alert Define Batch API | 告警定义管理API")
 @RestController
@@ -62,6 +59,7 @@ public class AlertDefinesController {
             description = "You can obtain the list of alarm definitions by querying filter items ｜ 根据查询过滤项获取告警定义信息列表")
     public ResponseEntity<Message<Page<AlertDefine>>> getAlertDefines(
             @Parameter(description = "Alarm Definition ID ｜ 告警定义ID", example = "6565463543") @RequestParam(required = false) List<Long> ids,
+            @Parameter(description = "Search-Target Expr Template ｜ 模糊查询-指标对象 表达式 通知模版", example = "x") @RequestParam(required = false) String search,
             @Parameter(description = "Alarm Definition Severity ｜ 告警定义级别", example = "6565463543") @RequestParam(required = false) Byte priority,
             @Parameter(description = "Sort field, default id ｜ 排序字段，默认id", example = "id") @RequestParam(defaultValue = "id") String sort,
             @Parameter(description = "Sort mode: asc: ascending, desc: descending ｜ 排序方式，asc:升序，desc:降序", example = "desc") @RequestParam(defaultValue = "desc") String order,
@@ -71,11 +69,36 @@ public class AlertDefinesController {
         Specification<AlertDefine> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> andList = new ArrayList<>();
             if (ids != null && !ids.isEmpty()) {
-                CriteriaBuilder.In<Long> inPredicate= criteriaBuilder.in(root.get("id"));
+                CriteriaBuilder.In<Long> inPredicate = criteriaBuilder.in(root.get("id"));
                 for (long id : ids) {
                     inPredicate.value(id);
                 }
                 andList.add(inPredicate);
+            }
+            if (StringUtils.hasText(search)) {
+                Predicate predicate = criteriaBuilder.or(
+                        criteriaBuilder.like(
+                                criteriaBuilder.lower(root.get("app")),
+                                "%" + search.toLowerCase() + "%"
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.lower(root.get("metric")),
+                                "%" + search.toLowerCase() + "%"
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.lower(root.get("field")),
+                                "%" + search.toLowerCase() + "%"
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.lower(root.get("expr")),
+                                "%" + search.toLowerCase() + "%"
+                        ),
+                        criteriaBuilder.like(
+                                criteriaBuilder.lower(root.get("template")),
+                                "%" + search.toLowerCase() + "%"
+                        )
+                );
+                andList.add(predicate);
             }
             if (priority != null) {
                 Predicate predicate = criteriaBuilder.equal(root.get("priority"), priority);
@@ -84,12 +107,10 @@ public class AlertDefinesController {
             Predicate[] predicates = new Predicate[andList.size()];
             return criteriaBuilder.and(andList.toArray(predicates));
         };
-        // 分页是必须的
         Sort sortExp = Sort.by(new Sort.Order(Sort.Direction.fromString(order), sort));
         PageRequest pageRequest = PageRequest.of(pageIndex, pageSize, sortExp);
-        Page<AlertDefine> alertDefinePage = alertDefineService.getAlertDefines(specification,pageRequest);
-        Message<Page<AlertDefine>> message = new Message<>(alertDefinePage);
-        return ResponseEntity.ok(message);
+        Page<AlertDefine> alertDefinePage = alertDefineService.getAlertDefines(specification, pageRequest);
+        return ResponseEntity.ok(Message.success(alertDefinePage));
     }
 
     @DeleteMapping
@@ -101,8 +122,22 @@ public class AlertDefinesController {
         if (ids != null && !ids.isEmpty()) {
             alertDefineService.deleteAlertDefines(new HashSet<>(ids));
         }
-        Message<Void> message = new Message<>();
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(Message.success());
     }
 
+    @GetMapping("/export")
+    @Operation(summary = "export alertDefine config", description = "导出告警阀值配置")
+    public void export(
+        @Parameter(description = "AlertDefine ID List | 告警阀值ID列表", example = "656937901") @RequestParam List<Long> ids,
+        @Parameter(description = "Export Type:JSON,EXCEL,YAML") @RequestParam(defaultValue = "JSON") String type,
+        HttpServletResponse res) throws Exception {
+        alertDefineService.export(ids, type, res);
+    }
+
+    @PostMapping("/import")
+    @Operation(summary = "import alertDefine config", description = "导入告警阀值配置")
+    public ResponseEntity<Message<Void>> importDefines(MultipartFile file) throws Exception {
+        alertDefineService.importConfig(file);
+        return ResponseEntity.ok(Message.success("Import success"));
+    }
 }

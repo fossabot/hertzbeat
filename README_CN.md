@@ -8,44 +8,47 @@
 
 ## HertzBeat 赫兹跳动 | [English Documentation](README.md)           
 
-> 易用友好的开源实时监控告警系统，无需Agent，强大自定义监控能力。
+> 实时监控系统，无需Agent，性能集群，兼容Prometheus，自定义监控和状态页构建能力。
 
-[![discord](https://img.shields.io/badge/chat-on%20discord-brightgreen)](https://discord.gg/Fb6M73htGr)
-[![Gitter](https://badges.gitter.im/hertzbeat/community.svg)](https://gitter.im/hertzbeat/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Discord](https://img.shields.io/badge/Chat-Discord-7289DA?logo=discord)](https://discord.gg/Fb6M73htGr)
+[![Reddit](https://img.shields.io/badge/Reddit-Community-7289DA?logo=reddit)](https://www.reddit.com/r/hertzbeat/)
+[![Twitter](https://img.shields.io/twitter/follow/hertzbeat1024?logo=twitter)](https://twitter.com/hertzbeat1024)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8139/badge)](https://www.bestpractices.dev/projects/8139)
+[![Docker Pulls](https://img.shields.io/docker/pulls/tancloud/hertzbeat?style=%20for-the-badge&logo=docker&label=DockerHub%20Download)](https://hub.docker.com/repository/docker/tancloud/hertzbeat/general)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/hertzbeat)](https://artifacthub.io/packages/search?repo=hertzbeat)
 [![QQ](https://img.shields.io/badge/qq-236915833-orange)](https://jq.qq.com/?_wv=1027&k=aVIVB2K9)
-![hertzbeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/badge/web-monitor.svg)
-![hertzbeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/badge/ping-connect.svg)
-![hertzbeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/badge/port-available.svg)
-![hertzbeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/badge/database-monitor.svg)
-![hertzbeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/badge/os-monitor.svg)
-![hertzbeat](https://img.shields.io/badge/monitor-cloud%20native-brightgreen)
-![hertzbeat](https://img.shields.io/badge/monitor-middleware-blueviolet)
-![hertzbeat](https://img.shields.io/badge/monitor-network-red)
-![hertzbeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/badge/custom-monitor.svg)
-![hertzbeat](https://cdn.jsdelivr.net/gh/dromara/hertzbeat@gh-pages/img/badge/alert.svg)
+[![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCri75zfWX0GHqJFPENEbLow?logo=youtube&label=YouTube%20Channel)](https://www.youtube.com/channel/UCri75zfWX0GHqJFPENEbLow)
 
-**官网: [hertzbeat.dromara.org](https://hertzbeat.dromara.org) | [hertzbeat.com](https://hertzbeat.com)**
 
-**云服务: [tancloud.cn](https://tancloud.cn)**
+**官网: [hertzbeat.dromara.org](https://hertzbeat.dromara.org) 全球网络 | [hertzbeat.com](https://hertzbeat.com) 中国网络**
+
+**云服务: [console.tancloud.cn](https://console.tancloud.cn)**
 
 ## 🎡 <font color="green">介绍</font>
 
-> [HertzBeat赫兹跳动](https://github.com/dromara/hertzbeat) 是一个拥有强大自定义监控能力，无需 Agent 的开源实时监控告警系统。     
-> 集 **监控+告警+通知** 为一体，支持对应用服务，数据库，操作系统，中间件，云原生，网络等监控，阈值告警通知一步到位。   
-> 易用友好，全 WEB 页面操作，鼠标点一点就能监控告警，零上手学习成本。    
-> 更自由化的阈值规则，`邮件` `Discord` `Slack` `Telegram` `钉钉` `微信` `飞书` `短信` `Webhook` 等方式及时送达。             
+[HertzBeat 赫兹跳动](https://github.com/dromara/hertzbeat) 是一个易用友好的开源实时监控告警系统，无需 Agent，高性能集群，兼容 Prometheus，提供强大的自定义监控和状态页构建能力。     
 
-> 我们将`Http,Jmx,Ssh,Snmp,Jdbc`等协议规范可配置化，您只需在浏览器配置`YML`就能使用这些协议去自定义采集任何您想要的指标。    
-> 您相信只需配置下就能立刻适配一款`K8s`或`Docker`等新的监控类型吗？   
+### 特点
 
-> `HertzBeat`的强大自定义，多类型支持，易扩展，低耦合，希望能帮助开发者和中小团队快速搭建自有监控系统。    
-> 当然我们也提供了对应的 **[SAAS版本监控云](https://console.tancloud.cn)**，中小团队和个人无需再为了监控自己的网站资源，而去部署学习一套繁琐的监控系统，**[登录即可免费开始](https://console.tancloud.cn)**。
+- 集 **监控+告警+通知** 为一体，支持对应用服务，应用程序，数据库，缓存，操作系统，大数据，中间件，Web服务器，云原生，网络，自定义等监控阈值告警通知一步到位。
+- 易用友好，无需 `Agent`，全 `WEB` 页面操作，鼠标点一点就能监控告警，零上手学习成本。    
+- 将 `Http, Jmx, Ssh, Snmp, Jdbc, Prometheus` 等协议规范可配置化，只需在浏览器配置监控模版 `YML` 就能使用这些协议去自定义采集想要的指标。您相信只需配置下就能立刻适配一款 `K8s` 或 `Docker` 等新的监控类型吗？  
+- 兼容 `Prometheus` 的系统生态并且更多，只需页面操作就可以监控 `Prometheus` 所能监控的。
+- 高性能，支持多采集器集群横向扩展，支持多隔离网络监控，云边协同。
+- 自由的告警阈值规则，`邮件` `Discord` `Slack` `Telegram` `钉钉` `微信` `飞书` `短信` `Webhook` `Server酱` 等方式消息及时送达。
+- 提供强大的状态页构建能力，轻松向用户传达您产品服务的实时状态。
+
+
+> `HertzBeat`的强大自定义，多类型支持，高性能，易扩展，低耦合，希望能帮助用户快速搭建自有监控系统。    
+> 当然我们也提供了对应的 **[SAAS版本监控云服务](https://console.tancloud.cn)**，中小团队和个人无需再为监控自有资源而去部署一套监控系统，**[登录即可免费开始](https://console.tancloud.cn)**。
 
 ----   
 
-[![hertzbeat](home/static/img/home/1.png)](https://www.bilibili.com/video/BV1LY4y1m7rH/)
+![hertzbeat](home/static/img/home/1.png)
 
-[![hertzbeat](home/static/img/home/9.png)](https://www.bilibili.com/video/BV1LY4y1m7rH/)
+![hertzbeat](home/static/img/home/status.png)
+
+![hertzbeat](home/static/img/home/9.png)
 
 ----   
 
@@ -62,7 +65,11 @@
   [Http Api](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-api.yml), [Ping Connect](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-ping.yml),
   [Jvm](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-jvm.yml), [SiteMap](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-fullsite.yml),
   [Ssl Certificate](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-ssl_cert.yml), [SpringBoot2](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-springboot2.yml),
-  [FTP Server](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-ftp.yml), [SpringBoot3](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-springboot3.yml)
+  [FTP Server](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-ftp.yml), [SpringBoot3](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-springboot3.yml),
+  [Udp Port](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-udp.yml), [Dns](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-dns.yml),
+  [Pop3](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-pop3.yml), [Ntp](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-ntp.yml),
+  [Api Code](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-api_code.yml), [Smtp](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-smtp.yml),
+  [Nginx](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-nginx.yml)
 - [Mysql](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-mysql.yml), [PostgreSQL](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-postgresql.yml),
   [MariaDB](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-mariadb.yml), [Redis](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-redis.yml),
   [ElasticSearch](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-elasticsearch.yml), [SqlServer](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-sqlserver.yml),
@@ -70,6 +77,8 @@
   [DM](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-dm.yml), [OpenGauss](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-opengauss.yml),
   [ClickHouse](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-clickhouse.yml), [IoTDB](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-iotdb.yml),
   [Redis Cluster](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-redis_cluster.yml), [Redis Sentinel](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-redis_sentinel.yml)
+  [Doris BE](https://github.com/dromara/hertzbeat/blob/master/manager/src/main/resources/define/app-doris_be.yml), [Doris FE](https://github.com/dromara/hertzbeat/blob/master/manager/src/main/resources/define/app-doris_fe.yml),
+  [Memcached](https://github.com/dromara/hertzbeat/blob/master/manager/src/main/resources/define/app-memcached.yml), [NebulaGraph](https://github.com/dromara/hertzbeat/blob/master/manager/src/main/resources/define/app-nebulaGraph.yml)
 - [Linux](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-linux.yml), [Ubuntu](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-ubuntu.yml),
   [CentOS](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-centos.yml), [Windows](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-windows.yml),
   [EulerOS](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-euleros.yml), [Fedora CoreOS](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-coreos.yml),
@@ -80,58 +89,94 @@
   [Zookeeper](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-zookeeper.yml), [RabbitMQ](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-rabbitmq.yml),
   [Flink](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-flink.yml), [Kafka](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-kafka.yml),
   [ShenYu](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-shenyu.yml), [DynamicTp](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-dynamic_tp.yml),
-  [Jetty](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-jetty.yml), [ActiveMQ](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-activemq.yml)
+  [Jetty](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-jetty.yml), [ActiveMQ](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-activemq.yml),
+  [Spring Gateway](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-spring_gateway.yml), [EMQX MQTT](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-emqx.yml),
+  [AirFlow](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-airflow.yml), [Hive](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-hive.yml),
+  [Spark](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-spark.yml), [Hadoop](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-hadoop.yml)
 - [Kubernetes](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-kubernetes.yml), [Docker](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-docker.yml)
 - [CiscoSwitch](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-cisco_switch.yml), [HpeSwitch](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-hpe_switch.yml),
   [HuaweiSwitch](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-huawei_switch.yml), [TpLinkSwitch](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-tplink_switch.yml),
   [H3cSwitch](https://raw.githubusercontent.com/dromara/hertzbeat/master/manager/src/main/resources/define/app-h3c_switch.yml)
 - 和更多自定义监控模版。
-- 通知支持 `Discord` `Slack` `Telegram` `邮件` `钉钉` `微信` `飞书` `短信` `Webhook`。
+- 通知支持 `Discord` `Slack` `Telegram` `邮件` `钉钉` `微信` `飞书` `短信` `Webhook` `Server酱`。
 
 ## 🐕 快速开始  
 
-- 如果您不想部署而是直接使用，我们提供SAAS监控云-[TanCloud探云](https://console.tancloud.cn)，即刻 **[登录注册](https://console.tancloud.cn)** 免费使用。
+- 如果您不想部署而是直接使用，我们提供SAAS监控云服务-TanCloud探云，**[即刻登录注册免费使用](https://console.tancloud.cn)**。
 - 如果您是想将HertzBeat部署到内网环境搭建监控系统，请参考下面的部署文档进行操作。  
 
 ### 🍞 HertzBeat安装
-> HertzBeat支持通过源码安装启动，Docker容器运行和安装包方式安装部署，CPU架构支持X86/ARM64。
+> HertzBeat支持通过源码安装启动，Docker容器运行和安装包方式安装部署，CPU架构支持x86/arm64。
 
 ##### 方式一：Docker方式快速安装  
 
 1. `docker` 环境仅需一条命令即可开始     
 
-```docker run -d -p 1157:1157 --name hertzbeat tancloud/hertzbeat```
+```docker run -d -p 1157:1157 -p 1158:1158 --name hertzbeat tancloud/hertzbeat```
 
 ```或者使用 quay.io (若 dockerhub 网络链接超时)```
 
-```docker run -d -p 1157:1157 --name hertzbeat quay.io/tancloud/hertzbeat```
+```docker run -d -p 1157:1157 -p 1158:1158 --name hertzbeat quay.io/tancloud/hertzbeat```
 
-2. 浏览器访问 `localhost:1157` 即可开始，默认账号密码 `admin/hertzbeat`
+2. 浏览器访问 `http://localhost:1157` 即可开始，默认账号密码 `admin/hertzbeat`
+
+3. 部署采集器集群
+
+```
+docker run -d -e IDENTITY=custom-collector-name -e MANAGER_HOST=127.0.0.1 -e MANAGER_PORT=1158 --name hertzbeat-collector tancloud/hertzbeat-collector
+```
+   - `-e IDENTITY=custom-collector-name` : 配置此采集器的唯一性标识符名称，多个采集器名称不能相同，建议自定义英文名称。
+   - `-e MODE=public` : 配置运行模式(public or private), 公共集群模式或私有云边模式。
+   - `-e MANAGER_HOST=127.0.0.1` : 配置连接主HertaBeat服务的对外IP。
+   - `-e MANAGER_PORT=1158` : 配置连接主HertzBeat服务的对外端口，默认1158。
 
 更多配置详细步骤参考 [通过Docker方式安装HertzBeat](https://hertzbeat.com/docs/start/docker-deploy)
 
 ##### 方式二：通过安装包安装
-1. 下载您系统环境对应的安装包 [GITEE Release](https://gitee.com/dromara/hertzbeat/releases) [GITHUB Release](https://github.com/dromara/hertzbeat/releases)
-2. 需要已安装`java11`环境   
-3. 配置 HertzBeat 的配置文件 `hertzbeat/config/application.yml`(可选)
-4. 部署启动 `$ ./startup.sh ` 或 `startup.bat`
-5. 浏览器访问 `localhost:1157` 即可开始，默认账号密码 `admin/hertzbeat`
+
+1. 下载您系统环境对应的安装包`hertzbeat-xx.tar.gz` [GITEE Release](https://gitee.com/dromara/hertzbeat/releases) [GITHUB Release](https://github.com/dromara/hertzbeat/releases)
+2. 配置 HertzBeat 的配置文件 `hertzbeat/config/application.yml`(可选)
+3. 部署启动 `$ ./bin/startup.sh ` 或 `bin/startup.bat`
+4. 浏览器访问 `http://localhost:1157` 即可开始，默认账号密码 `admin/hertzbeat`
+5. 部署采集器集群
+   - 下载采集器安装包`hertzbeat-collector-xx.tar.gz`到规划的另一台部署主机上 [GITEE Release](https://gitee.com/dromara/hertzbeat/releases) [GITHUB Release](https://github.com/dromara/hertzbeat/releases)
+   - 配置采集器的配置文件 `hertzbeat-collector/config/application.yml` 里面的连接主HertzBeat服务的对外IP，端口，当前采集器名称(需保证唯一性)等参数 `identity` `mode` (public or private) `manager-host` `manager-port`
+     ```yaml
+     collector:
+       dispatch:
+         entrance:
+           netty:
+             enabled: true
+             identity: ${IDENTITY:}
+             mode: ${MODE:public}
+             manager-host: ${MANAGER_HOST:127.0.0.1}
+             manager-port: ${MANAGER_PORT:1158}
+     ```
+   - 启动 `$ ./bin/startup.sh ` 或 `bin/startup.bat`
+   - 浏览器访问主HertzBeat服务 `http://localhost:1157` 查看概览页面即可看到注册上来的新采集器
 
 更多配置详细步骤参考 [通过安装包安装HertzBeat](https://hertzbeat.com/docs/start/package-deploy)
 
 ##### 方式三：本地代码启动
+
 1. 此为前后端分离项目，本地代码调试需要分别启动后端工程`manager`和前端工程`web-app`
 2. 后端：需要`maven3+`, `java11`和`lombok`环境，修改`YML`配置信息并启动`manager`服务
 3. 前端：需要`nodejs npm angular-cli`环境，待本地后端启动后，在`web-app`目录下启动 `ng serve --open`
-4. 浏览器访问 `localhost:4200` 即可开始，默认账号密码 `admin/hertzbeat`
+4. 浏览器访问 `http://localhost:4200` 即可开始，默认账号密码 `admin/hertzbeat`
 
 详细步骤参考 [参与贡献之本地代码启动](CONTRIBUTING.md)
 
-##### 方式四：Docker-Compose 统一安装 hertzbeat+mysql+iotdb/tdengine
+##### 方式四：Docker-Compose 统一安装 hertzbeat+mysql+tsdb
 
-通过 [Docker-Compose 部署脚本](script/docker-compose) 一次性把 mysql 数据库, iotdb/tdengine 时序数据库和 hertzbeat 安装部署。
+通过 [Docker-Compose 部署脚本](script/docker-compose) 一次性把 mysql/postgresql 数据库, iotdb/tdengine/victoria-metrics 时序数据库和 hertzbeat 安装部署。
 
 详细步骤参考 [通过Docker-Compose安装HertzBeat](script/docker-compose/README.md)  
+
+##### 方式五：Kubernetes Helm Charts 部署 hertzbeat+collector+mysql+tsdb
+
+通过 Helm Chart 一次性将 HertzBeat 集群组件部署到 Kubernetes 集群中。
+
+详细步骤参考 [Artifact Hub](https://artifacthub.io/packages/helm/hertzbeat/hertzbeat)
 
 **HAVE FUN**
 
@@ -254,7 +299,7 @@ Thanks these wonderful people, welcome to join us:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/ByteIDance"><img src="https://avatars.githubusercontent.com/u/100207562?v=4?s=100" width="100px;" alt="ByteIDance"/><br /><sub><b>ByteIDance</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ByteIDance" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mangel2002"><img src="https://avatars.githubusercontent.com/u/9348020?v=4?s=100" width="100px;" alt="Jangfe"/><br /><sub><b>Jangfe</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=mangel2002" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/zqr10159"><img src="https://avatars.githubusercontent.com/u/30048352?v=4?s=100" width="100px;" alt="zqr10159"/><br /><sub><b>zqr10159</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=zqr10159" title="Documentation">📖</a> <a href="https://github.com/dromara/hertzbeat/commits?author=zqr10159" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/vinci-897"><img src="https://avatars.githubusercontent.com/u/55838224?v=4?s=100" width="100px;" alt="vinci"/><br /><sub><b>vinci</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=vinci-897" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/vinci-897"><img src="https://avatars.githubusercontent.com/u/55838224?v=4?s=100" width="100px;" alt="vinci"/><br /><sub><b>vinci</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=vinci-897" title="Code">💻</a> <a href="https://github.com/dromara/hertzbeat/commits?author=vinci-897" title="Documentation">📖</a> <a href="#design-vinci-897" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/js110"><img src="https://avatars.githubusercontent.com/u/51191863?v=4?s=100" width="100px;" alt="js110"/><br /><sub><b>js110</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=js110" title="Code">💻</a></td>
     </tr>
     <tr>
@@ -316,9 +361,50 @@ Thanks these wonderful people, welcome to join us:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/san346596324"><img src="https://avatars.githubusercontent.com/u/30828520?v=4?s=100" width="100px;" alt="渭雨"/><br /><sub><b>渭雨</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=san346596324" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/luoxuanzao"><img src="https://avatars.githubusercontent.com/u/44692579?v=4?s=100" width="100px;" alt="liuxuezhuo"/><br /><sub><b>liuxuezhuo</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=luoxuanzao" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/lisongning"><img src="https://avatars.githubusercontent.com/u/93140178?v=4?s=100" width="100px;" alt="lisongning"/><br /><sub><b>lisongning</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=lisongning" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/YutingNie"><img src="https://avatars.githubusercontent.com/u/104416402?v=4?s=100" width="100px;" alt="YutingNie"/><br /><sub><b>YutingNie</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=YutingNie" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mikezzb"><img src="https://avatars.githubusercontent.com/u/23418428?v=4?s=100" width="100px;" alt="Mike Zhou"/><br /><sub><b>Mike Zhou</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=mikezzb" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/YutingNie"><img src="https://avatars.githubusercontent.com/u/104416402?v=4?s=100" width="100px;" alt="YutingNie"/><br /><sub><b>YutingNie</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=YutingNie" title="Code">💻</a> <a href="https://github.com/dromara/hertzbeat/commits?author=YutingNie" title="Documentation">📖</a> <a href="#design-YutingNie" title="Design">🎨</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/mikezzb"><img src="https://avatars.githubusercontent.com/u/23418428?v=4?s=100" width="100px;" alt="Mike Zhou"/><br /><sub><b>Mike Zhou</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=mikezzb" title="Code">💻</a> <a href="https://github.com/dromara/hertzbeat/commits?author=mikezzb" title="Documentation">📖</a> <a href="#design-mikezzb" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/a-little-fool"><img src="https://avatars.githubusercontent.com/u/105542329?v=4?s=100" width="100px;" alt="小笨蛋"/><br /><sub><b>小笨蛋</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=a-little-fool" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/littlezhongzer"><img src="https://avatars.githubusercontent.com/u/33685289?v=4?s=100" width="100px;" alt="littlezhongzer"/><br /><sub><b>littlezhongzer</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=littlezhongzer" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ChenXiangxxxxx"><img src="https://avatars.githubusercontent.com/u/90089594?v=4?s=100" width="100px;" alt="ChenXiangxxxxx"/><br /><sub><b>ChenXiangxxxxx</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ChenXiangxxxxx" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Mr-zhou315"><img src="https://avatars.githubusercontent.com/u/10276100?v=4?s=100" width="100px;" alt="Mr.zhou"/><br /><sub><b>Mr.zhou</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=Mr-zhou315" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/XimfengYao"><img src="https://avatars.githubusercontent.com/u/17541537?v=4?s=100" width="100px;" alt="姚贤丰"/><br /><sub><b>姚贤丰</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=XimfengYao" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/LINGLUOJUN"><img src="https://avatars.githubusercontent.com/u/16778977?v=4?s=100" width="100px;" alt="lingluojun"/><br /><sub><b>lingluojun</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=LINGLUOJUN" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.luelueking.com"><img src="https://avatars.githubusercontent.com/u/93204032?v=4?s=100" width="100px;" alt="1ue"/><br /><sub><b>1ue</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=luelueking" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://www.jimmyqiao.top"><img src="https://avatars.githubusercontent.com/u/67301054?v=4?s=100" width="100px;" alt="qyaaaa"/><br /><sub><b>qyaaaa</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=qyaaaa" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://novohit.top"><img src="https://avatars.githubusercontent.com/u/101090395?v=4?s=100" width="100px;" alt="novohit"/><br /><sub><b>novohit</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=novohit" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rbsrcy"><img src="https://avatars.githubusercontent.com/u/4798540?v=4?s=100" width="100px;" alt="zhuoshangyi"/><br /><sub><b>zhuoshangyi</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=rbsrcy" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ruanliang-hualun"><img src="https://avatars.githubusercontent.com/u/65543716?v=4?s=100" width="100px;" alt="ruanliang"/><br /><sub><b>ruanliang</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ruanliang-hualun" title="Documentation">📖</a> <a href="https://github.com/dromara/hertzbeat/commits?author=ruanliang-hualun" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Eden4701"><img src="https://avatars.githubusercontent.com/u/68422437?v=4?s=100" width="100px;" alt="Eden4701"/><br /><sub><b>Eden4701</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=Eden4701" title="Code">💻</a> <a href="https://github.com/dromara/hertzbeat/commits?author=Eden4701" title="Documentation">📖</a> <a href="#design-Eden4701" title="Design">🎨</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/XiaTian688"><img src="https://avatars.githubusercontent.com/u/111830921?v=4?s=100" width="100px;" alt="XiaTian688"/><br /><sub><b>XiaTian688</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=XiaTian688" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/liyin"><img src="https://avatars.githubusercontent.com/u/863169?v=4?s=100" width="100px;" alt="liyinjiang"/><br /><sub><b>liyinjiang</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=liyin" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jiashu1024"><img src="https://avatars.githubusercontent.com/u/67859663?v=4?s=100" width="100px;" alt="ZhangJiashu"/><br /><sub><b>ZhangJiashu</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=jiashu1024" title="Documentation">📖</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/1036664317"><img src="https://avatars.githubusercontent.com/u/7696697?v=4?s=100" width="100px;" alt="moghn"/><br /><sub><b>moghn</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=1036664317" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/xiaoguolong"><img src="https://avatars.githubusercontent.com/u/33684988?v=4?s=100" width="100px;" alt="xiaoguolong"/><br /><sub><b>xiaoguolong</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=xiaoguolong" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Clownsw"><img src="https://avatars.githubusercontent.com/u/28394742?v=4?s=100" width="100px;" alt="Smliexx"/><br /><sub><b>Smliexx</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=Clownsw" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Calvin979"><img src="https://avatars.githubusercontent.com/u/131688897?v=4?s=100" width="100px;" alt="Naruse"/><br /><sub><b>Naruse</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=Calvin979" title="Documentation">📖</a> <a href="https://github.com/dromara/hertzbeat/commits?author=Calvin979" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/bbelide2"><img src="https://avatars.githubusercontent.com/u/26840796?v=4?s=100" width="100px;" alt="Bala Sukesh"/><br /><sub><b>Bala Sukesh</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=bbelide2" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jinyaoMa"><img src="https://avatars.githubusercontent.com/u/25066570?v=4?s=100" width="100px;" alt="Jinyao Ma"/><br /><sub><b>Jinyao Ma</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=jinyaoMa" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://linuxsuren.github.io/open-source-best-practice/"><img src="https://avatars.githubusercontent.com/u/1450685?v=4?s=100" width="100px;" alt="Rick"/><br /><sub><b>Rick</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=LinuxSuRen" title="Code">💻</a> <a href="https://github.com/dromara/hertzbeat/commits?author=LinuxSuRen" title="Tests">⚠️</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ZY945"><img src="https://avatars.githubusercontent.com/u/74083801?v=4?s=100" width="100px;" alt="东风"/><br /><sub><b>东风</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ZY945" title="Code">💻</a> <a href="#design-ZY945" title="Design">🎨</a> <a href="https://github.com/dromara/hertzbeat/commits?author=ZY945" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/prolevel1"><img src="https://avatars.githubusercontent.com/u/51995525?v=4?s=100" width="100px;" alt="sonam singh"/><br /><sub><b>sonam singh</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=prolevel1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ZhangZixuan1994"><img src="https://avatars.githubusercontent.com/u/20011653?v=4?s=100" width="100px;" alt="ZhangZixuan1994"/><br /><sub><b>ZhangZixuan1994</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ZhangZixuan1994" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/hurenjie1"><img src="https://avatars.githubusercontent.com/u/40120355?v=4?s=100" width="100px;" alt="SHIG"/><br /><sub><b>SHIG</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=hurenjie1" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://tslj1024.github.io/"><img src="https://avatars.githubusercontent.com/u/155222677?v=4?s=100" width="100px;" alt="泰上老菌"/><br /><sub><b>泰上老菌</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=tslj1024" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ldysdu"><img src="https://avatars.githubusercontent.com/u/15815338?v=4?s=100" width="100px;" alt="ldysdu"/><br /><sub><b>ldysdu</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=ldysdu" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/GEM0816g"><img src="https://avatars.githubusercontent.com/u/85116017?v=4?s=100" width="100px;" alt="梁同学"/><br /><sub><b>梁同学</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=GEM0816g" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/avvCode"><img src="https://avatars.githubusercontent.com/u/113538532?v=4?s=100" width="100px;" alt="avv"/><br /><sub><b>avv</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=avvCode" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/yqxxgh"><img src="https://avatars.githubusercontent.com/u/42080876?v=4?s=100" width="100px;" alt="yqxxgh"/><br /><sub><b>yqxxgh</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=yqxxgh" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/CharlieShi46"><img src="https://avatars.githubusercontent.com/u/149798885?v=4?s=100" width="100px;" alt="CharlieShi46"/><br /><sub><b>CharlieShi46</b></sub></a><br /><a href="https://github.com/dromara/hertzbeat/commits?author=CharlieShi46" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
@@ -334,42 +420,73 @@ HertzBeat 赫兹跳动是 [Dromara开源社区](https://dromara.org/) 下顶级�
 
 ##### 微信交流群
 
-加微信号 tan-cloud 或 扫描下面账号二维码拉您进微信群。   
-<img alt="tan-cloud" src="home/static/img/docs/help/tan-cloud-wechat.jpg" width="200"/>
+加微信号 `tan-cloud` 或 扫描下面账号二维码拉您进微信群。   
+<img alt="tan-cloud" src="home/static/img/docs/help/tan-cloud-wechat.jpg" width="150"/>
 
 ##### QQ交流群
 
-加QQ群号 236915833 或 扫描下面的群二维码进群
+加QQ群号 `236915833` 或 扫描下面的群二维码进群。
 
-<img alt="tan-cloud" src="home/static/img/docs/help/qq-qr.jpg" width="200"/>          
+<img alt="tan-cloud" src="home/static/img/docs/help/qq-qr.jpg" width="150"/>          
 
 ##### Channel 
 
-[Gitter Channel](https://gitter.im/hertzbeat/community)   
+**[Chat On Discord](https://discord.gg/Fb6M73htGr)**
 
 [Github Discussion](https://github.com/dromara/hertzbeat/discussions)
 
-[User Club](https://support.qq.com/products/379369)    
+[Reddit Community](https://www.reddit.com/r/hertzbeat/)
+
+[Follow Us Twitter](https://twitter.com/hertzbeat1024)
+
+[Subscribe YouTube](https://www.youtube.com/channel/UCri75zfWX0GHqJFPENEbLow)
+
+[Bilibili B站](https://space.bilibili.com/430192869)
 
 ##### 公众号与星球     
 
-<img alt="tan-cloud" src="home/static/img/wechat.png" width="400"/>  
+<img alt="tan-cloud" src="home/static/img/wechat.png" width="300"/>  
 
 <br/>
 
-<img alt="planet" src="home/static/img/planet.jpg" width="400"/>    
+<img alt="planet" src="home/static/img/planet.jpg" width="300"/>    
 
 ##### 友情链接   
 
+- [Sa-Token](https://gitee.com/dromara/sa-token) : 一个轻量级 java 权限认证框架，让鉴权变得简单、优雅
 - [DynamicTp](https://github.com/dromara/dynamic-tp) : 轻量级动态线程池，内置监控告警功能，集成三方中间件线程池管理，基于主流配置中心
 - [Hippo4j](https://github.com/opengoofy/hippo4j/) : 强大的动态线程池框架，附带监控报警功能      
 - [Jpom](https://gitee.com/dromara/Jpom) : 简而轻的低侵入式在线构建、自动部署、日常运维、项目监控软件   
 - [ArgusDBM](https://github.com/zmops/ArgusDBM) : 开源数据库一体化监控平台，致力于监控所有数据库
+- [WangMarket](http://www.wang.market/) : 开源 SAAS 云建站系统
+- [API Testing](https://github.com/LinuxSuRen/api-testing)：轻量级、可扩展的接口开发、测试工具
 
 ##### 赞助     
-- Postcat [开源 API 管理工具 ](https://datayi.cn/w/xRxVBBko) 简单可拓展，支持 API 测试、文档、Mock、团队协作等核心功能
-- 感谢 [吉实信息(构建全新的微波+光交易网络)](https://www.flarespeed.com) 赞助服务器采集节点     
-- 感谢 [蓝易云(全新智慧上云)](https://www.tsyvps.com/aff/BZBEGYLX) 赞助服务器采集节点        
+
+- 感谢 [吉实信息(构建全新的微波+光交易网络)](https://www.flarespeed.com) 赞助服务器采集节点
+
+##### Open-Source Project Build From Open-Source
+
+HertzBeat is built on so many great open source projects, thanks to them!
+
+- `Java Spring SpringBoot Jpa Maven Assembly Netty Lombok Sureness Aviator Protobuf HttpClient Guava SnakeYaml JsonPath ...`
+- `TypeScript Angular NG-ZORRO NG-ALAIN NodeJs Npm Html Less Echarts Rxjs ZoneJs MonacoEditor SlickCarousel Docusaurus ...`
+
+
+## Landscape
+
+<p align="left">
+<img src="./home/static/img/home/cncf-landscape-left-logo.svg" width="300">&nbsp;&nbsp;<img src="./home/static/img/home/cncf-right-logo.svg" width="345" />
+<br /><br />
+HertzBeat has been included in the <a href="https://landscape.cncf.io/card-mode?category=monitoring&grouping=category">
+CNCF Observability And Analysis - Monitoring Landscape.</a>
+</p>
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=dromara/hertzbeat&type=Date)](https://star-history.com/#dromara/hertzbeat&Date)
+
 
 ## 🛡️ License
 [`Apache License, Version 2.0`](https://www.apache.org/licenses/LICENSE-2.0.html)

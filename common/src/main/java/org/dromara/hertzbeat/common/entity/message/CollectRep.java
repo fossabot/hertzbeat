@@ -22,7 +22,7 @@ public final class CollectRep {
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <pre>
-     * 采集成功
+     * collect success
      * </pre>
      *
      * <code>SUCCESS = 0;</code>
@@ -30,7 +30,7 @@ public final class CollectRep {
     SUCCESS(0),
     /**
      * <pre>
-     * 采集器不可用
+     * collector not available
      * </pre>
      *
      * <code>UN_AVAILABLE = 1;</code>
@@ -38,7 +38,7 @@ public final class CollectRep {
     UN_AVAILABLE(1),
     /**
      * <pre>
-     * 对端不可达(网络层icmp)
+     * peer network un reachable(icmp)
      * </pre>
      *
      * <code>UN_REACHABLE = 2;</code>
@@ -46,7 +46,7 @@ public final class CollectRep {
     UN_REACHABLE(2),
     /**
      * <pre>
-     * 对端连接失败(传输层tcp,udp)
+     * peer network server un connectable(tcp,udp...)
      * </pre>
      *
      * <code>UN_CONNECTABLE = 3;</code>
@@ -54,7 +54,7 @@ public final class CollectRep {
     UN_CONNECTABLE(3),
     /**
      * <pre>
-     * 数据采集失败(应用层http,ssh,snmp)
+     * collect metrics data failed(http,ssh,snmp...)
      * </pre>
      *
      * <code>FAIL = 4;</code>
@@ -62,7 +62,7 @@ public final class CollectRep {
     FAIL(4),
     /**
      * <pre>
-     * 采集超时
+     * collect metrics data timeout
      * </pre>
      *
      * <code>TIMEOUT = 5;</code>
@@ -73,7 +73,7 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 采集成功
+     * collect success
      * </pre>
      *
      * <code>SUCCESS = 0;</code>
@@ -81,7 +81,7 @@ public final class CollectRep {
     public static final int SUCCESS_VALUE = 0;
     /**
      * <pre>
-     * 采集器不可用
+     * collector not available
      * </pre>
      *
      * <code>UN_AVAILABLE = 1;</code>
@@ -89,7 +89,7 @@ public final class CollectRep {
     public static final int UN_AVAILABLE_VALUE = 1;
     /**
      * <pre>
-     * 对端不可达(网络层icmp)
+     * peer network un reachable(icmp)
      * </pre>
      *
      * <code>UN_REACHABLE = 2;</code>
@@ -97,7 +97,7 @@ public final class CollectRep {
     public static final int UN_REACHABLE_VALUE = 2;
     /**
      * <pre>
-     * 对端连接失败(传输层tcp,udp)
+     * peer network server un connectable(tcp,udp...)
      * </pre>
      *
      * <code>UN_CONNECTABLE = 3;</code>
@@ -105,7 +105,7 @@ public final class CollectRep {
     public static final int UN_CONNECTABLE_VALUE = 3;
     /**
      * <pre>
-     * 数据采集失败(应用层http,ssh,snmp)
+     * collect metrics data failed(http,ssh,snmp...)
      * </pre>
      *
      * <code>FAIL = 4;</code>
@@ -113,7 +113,7 @@ public final class CollectRep {
     public static final int FAIL_VALUE = 4;
     /**
      * <pre>
-     * 采集超时
+     * collect metrics data timeout
      * </pre>
      *
      * <code>TIMEOUT = 5;</code>
@@ -213,7 +213,7 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 监控的ID
+     * monitoring id
      * </pre>
      *
      * <code>uint64 id = 1;</code>
@@ -223,19 +223,29 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 监控的类型 eg: linux | mysql | jvm
+     * tenant id
      * </pre>
      *
-     * <code>string app = 2;</code>
+     * <code>uint64 tenantId = 2;</code>
+     * @return The tenantId.
+     */
+    long getTenantId();
+
+    /**
+     * <pre>
+     * monitoring app eg: linux | mysql | jvm
+     * </pre>
+     *
+     * <code>string app = 3;</code>
      * @return The app.
      */
     String getApp();
     /**
      * <pre>
-     * 监控的类型 eg: linux | mysql | jvm
+     * monitoring app eg: linux | mysql | jvm
      * </pre>
      *
-     * <code>string app = 2;</code>
+     * <code>string app = 3;</code>
      * @return The bytes for app.
      */
     com.google.protobuf.ByteString
@@ -243,19 +253,19 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 监控采集的指标集合 eg: cpu | memory | health
+     * monitoring metrics eg: cpu | memory | health
      * </pre>
      *
-     * <code>string metrics = 3;</code>
+     * <code>string metrics = 4;</code>
      * @return The metrics.
      */
     String getMetrics();
     /**
      * <pre>
-     * 监控采集的指标集合 eg: cpu | memory | health
+     * monitoring metrics eg: cpu | memory | health
      * </pre>
      *
-     * <code>string metrics = 3;</code>
+     * <code>string metrics = 4;</code>
      * @return The bytes for metrics.
      */
     com.google.protobuf.ByteString
@@ -263,58 +273,58 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 监控采集指标集合的采集优先级&gt;=0
+     * monitoring collect priority &gt;=0
      * </pre>
      *
-     * <code>uint32 priority = 4;</code>
+     * <code>uint32 priority = 5;</code>
      * @return The priority.
      */
     int getPriority();
 
     /**
      * <pre>
-     * 采集时间
+     * collect timestamp
      * </pre>
      *
-     * <code>uint64 time = 5;</code>
+     * <code>uint64 time = 6;</code>
      * @return The time.
      */
     long getTime();
 
     /**
      * <pre>
-     * 采集响应码
+     * collect response code
      * </pre>
      *
-     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
      * @return The enum numeric value on the wire for code.
      */
     int getCodeValue();
     /**
      * <pre>
-     * 采集响应码
+     * collect response code
      * </pre>
      *
-     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
      * @return The code.
      */
     Code getCode();
 
     /**
      * <pre>
-     * 采集响应信息
+     * collect response error message
      * </pre>
      *
-     * <code>string msg = 7;</code>
+     * <code>string msg = 8;</code>
      * @return The msg.
      */
     String getMsg();
     /**
      * <pre>
-     * 采集响应信息
+     * collect response error message
      * </pre>
      *
-     * <code>string msg = 7;</code>
+     * <code>string msg = 8;</code>
      * @return The bytes for msg.
      */
     com.google.protobuf.ByteString
@@ -322,88 +332,88 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
-    java.util.List<Field>
+    java.util.List<Field> 
         getFieldsList();
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     Field getFields(int index);
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     int getFieldsCount();
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
-    java.util.List<? extends FieldOrBuilder>
+    java.util.List<? extends FieldOrBuilder> 
         getFieldsOrBuilderList();
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     FieldOrBuilder getFieldsOrBuilder(
         int index);
 
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
-    java.util.List<ValueRow>
+    java.util.List<ValueRow> 
         getValuesList();
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     ValueRow getValues(int index);
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     int getValuesCount();
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
-    java.util.List<? extends ValueRowOrBuilder>
+    java.util.List<? extends ValueRowOrBuilder> 
         getValuesOrBuilderList();
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     ValueRowOrBuilder getValuesOrBuilder(
         int index);
@@ -465,41 +475,46 @@ public final class CollectRep {
               id_ = input.readUInt64();
               break;
             }
-            case 18: {
-              String s = input.readStringRequireUtf8();
+            case 16: {
 
-              app_ = s;
+              tenantId_ = input.readUInt64();
               break;
             }
             case 26: {
               String s = input.readStringRequireUtf8();
 
-              metrics_ = s;
+              app_ = s;
               break;
             }
-            case 32: {
+            case 34: {
+              String s = input.readStringRequireUtf8();
 
-              priority_ = input.readUInt32();
+              metrics_ = s;
               break;
             }
             case 40: {
 
-              time_ = input.readUInt64();
+              priority_ = input.readUInt32();
               break;
             }
             case 48: {
+
+              time_ = input.readUInt64();
+              break;
+            }
+            case 56: {
               int rawValue = input.readEnum();
 
               code_ = rawValue;
               break;
             }
-            case 58: {
+            case 66: {
               String s = input.readStringRequireUtf8();
 
               msg_ = s;
               break;
             }
-            case 66: {
+            case 74: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 fields_ = new java.util.ArrayList<Field>();
                 mutable_bitField0_ |= 0x00000001;
@@ -508,7 +523,7 @@ public final class CollectRep {
                   input.readMessage(Field.parser(), extensionRegistry));
               break;
             }
-            case 74: {
+            case 82: {
               if (!((mutable_bitField0_ & 0x00000002) != 0)) {
                 values_ = new java.util.ArrayList<ValueRow>();
                 mutable_bitField0_ |= 0x00000002;
@@ -561,7 +576,7 @@ public final class CollectRep {
     private long id_;
     /**
      * <pre>
-     * 监控的ID
+     * monitoring id
      * </pre>
      *
      * <code>uint64 id = 1;</code>
@@ -572,14 +587,29 @@ public final class CollectRep {
       return id_;
     }
 
-    public static final int APP_FIELD_NUMBER = 2;
+    public static final int TENANTID_FIELD_NUMBER = 2;
+    private long tenantId_;
+    /**
+     * <pre>
+     * tenant id
+     * </pre>
+     *
+     * <code>uint64 tenantId = 2;</code>
+     * @return The tenantId.
+     */
+    @Override
+    public long getTenantId() {
+      return tenantId_;
+    }
+
+    public static final int APP_FIELD_NUMBER = 3;
     private volatile Object app_;
     /**
      * <pre>
-     * 监控的类型 eg: linux | mysql | jvm
+     * monitoring app eg: linux | mysql | jvm
      * </pre>
      *
-     * <code>string app = 2;</code>
+     * <code>string app = 3;</code>
      * @return The app.
      */
     @Override
@@ -588,7 +618,7 @@ public final class CollectRep {
       if (ref instanceof String) {
         return (String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         app_ = s;
@@ -597,10 +627,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 监控的类型 eg: linux | mysql | jvm
+     * monitoring app eg: linux | mysql | jvm
      * </pre>
      *
-     * <code>string app = 2;</code>
+     * <code>string app = 3;</code>
      * @return The bytes for app.
      */
     @Override
@@ -608,7 +638,7 @@ public final class CollectRep {
         getAppBytes() {
       Object ref = app_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (String) ref);
         app_ = b;
@@ -618,14 +648,14 @@ public final class CollectRep {
       }
     }
 
-    public static final int METRICS_FIELD_NUMBER = 3;
+    public static final int METRICS_FIELD_NUMBER = 4;
     private volatile Object metrics_;
     /**
      * <pre>
-     * 监控采集的指标集合 eg: cpu | memory | health
+     * monitoring metrics eg: cpu | memory | health
      * </pre>
      *
-     * <code>string metrics = 3;</code>
+     * <code>string metrics = 4;</code>
      * @return The metrics.
      */
     @Override
@@ -634,7 +664,7 @@ public final class CollectRep {
       if (ref instanceof String) {
         return (String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         metrics_ = s;
@@ -643,10 +673,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 监控采集的指标集合 eg: cpu | memory | health
+     * monitoring metrics eg: cpu | memory | health
      * </pre>
      *
-     * <code>string metrics = 3;</code>
+     * <code>string metrics = 4;</code>
      * @return The bytes for metrics.
      */
     @Override
@@ -654,7 +684,7 @@ public final class CollectRep {
         getMetricsBytes() {
       Object ref = metrics_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (String) ref);
         metrics_ = b;
@@ -664,14 +694,14 @@ public final class CollectRep {
       }
     }
 
-    public static final int PRIORITY_FIELD_NUMBER = 4;
+    public static final int PRIORITY_FIELD_NUMBER = 5;
     private int priority_;
     /**
      * <pre>
-     * 监控采集指标集合的采集优先级&gt;=0
+     * monitoring collect priority &gt;=0
      * </pre>
      *
-     * <code>uint32 priority = 4;</code>
+     * <code>uint32 priority = 5;</code>
      * @return The priority.
      */
     @Override
@@ -679,14 +709,14 @@ public final class CollectRep {
       return priority_;
     }
 
-    public static final int TIME_FIELD_NUMBER = 5;
+    public static final int TIME_FIELD_NUMBER = 6;
     private long time_;
     /**
      * <pre>
-     * 采集时间
+     * collect timestamp
      * </pre>
      *
-     * <code>uint64 time = 5;</code>
+     * <code>uint64 time = 6;</code>
      * @return The time.
      */
     @Override
@@ -694,14 +724,14 @@ public final class CollectRep {
       return time_;
     }
 
-    public static final int CODE_FIELD_NUMBER = 6;
+    public static final int CODE_FIELD_NUMBER = 7;
     private int code_;
     /**
      * <pre>
-     * 采集响应码
+     * collect response code
      * </pre>
      *
-     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
      * @return The enum numeric value on the wire for code.
      */
     @Override public int getCodeValue() {
@@ -709,10 +739,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集响应码
+     * collect response code
      * </pre>
      *
-     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+     * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
      * @return The code.
      */
     @Override public Code getCode() {
@@ -721,14 +751,14 @@ public final class CollectRep {
       return result == null ? Code.UNRECOGNIZED : result;
     }
 
-    public static final int MSG_FIELD_NUMBER = 7;
+    public static final int MSG_FIELD_NUMBER = 8;
     private volatile Object msg_;
     /**
      * <pre>
-     * 采集响应信息
+     * collect response error message
      * </pre>
      *
-     * <code>string msg = 7;</code>
+     * <code>string msg = 8;</code>
      * @return The msg.
      */
     @Override
@@ -737,7 +767,7 @@ public final class CollectRep {
       if (ref instanceof String) {
         return (String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         msg_ = s;
@@ -746,10 +776,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集响应信息
+     * collect response error message
      * </pre>
      *
-     * <code>string msg = 7;</code>
+     * <code>string msg = 8;</code>
      * @return The bytes for msg.
      */
     @Override
@@ -757,7 +787,7 @@ public final class CollectRep {
         getMsgBytes() {
       Object ref = msg_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (String) ref);
         msg_ = b;
@@ -767,14 +797,14 @@ public final class CollectRep {
       }
     }
 
-    public static final int FIELDS_FIELD_NUMBER = 8;
+    public static final int FIELDS_FIELD_NUMBER = 9;
     private java.util.List<Field> fields_;
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     @Override
     public java.util.List<Field> getFieldsList() {
@@ -782,22 +812,22 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     @Override
-    public java.util.List<? extends FieldOrBuilder>
+    public java.util.List<? extends FieldOrBuilder> 
         getFieldsOrBuilderList() {
       return fields_;
     }
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     @Override
     public int getFieldsCount() {
@@ -805,10 +835,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     @Override
     public Field getFields(int index) {
@@ -816,10 +846,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标名
+     * monitoring collect metric field
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
      */
     @Override
     public FieldOrBuilder getFieldsOrBuilder(
@@ -827,14 +857,14 @@ public final class CollectRep {
       return fields_.get(index);
     }
 
-    public static final int VALUES_FIELD_NUMBER = 9;
+    public static final int VALUES_FIELD_NUMBER = 10;
     private java.util.List<ValueRow> values_;
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     @Override
     public java.util.List<ValueRow> getValuesList() {
@@ -842,22 +872,22 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     @Override
-    public java.util.List<? extends ValueRowOrBuilder>
+    public java.util.List<? extends ValueRowOrBuilder> 
         getValuesOrBuilderList() {
       return values_;
     }
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     @Override
     public int getValuesCount() {
@@ -865,10 +895,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     @Override
     public ValueRow getValues(int index) {
@@ -876,10 +906,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标值集合(fields作为字段名称与ValueRow映射)
+     * monitoring collect metric data, mapping with the fields
      * </pre>
      *
-     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+     * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
      */
     @Override
     public ValueRowOrBuilder getValuesOrBuilder(
@@ -904,29 +934,32 @@ public final class CollectRep {
       if (id_ != 0L) {
         output.writeUInt64(1, id_);
       }
+      if (tenantId_ != 0L) {
+        output.writeUInt64(2, tenantId_);
+      }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(app_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, app_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, app_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(metrics_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, metrics_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, metrics_);
       }
       if (priority_ != 0) {
-        output.writeUInt32(4, priority_);
+        output.writeUInt32(5, priority_);
       }
       if (time_ != 0L) {
-        output.writeUInt64(5, time_);
+        output.writeUInt64(6, time_);
       }
       if (code_ != Code.SUCCESS.getNumber()) {
-        output.writeEnum(6, code_);
+        output.writeEnum(7, code_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(msg_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, msg_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, msg_);
       }
       for (int i = 0; i < fields_.size(); i++) {
-        output.writeMessage(8, fields_.get(i));
+        output.writeMessage(9, fields_.get(i));
       }
       for (int i = 0; i < values_.size(); i++) {
-        output.writeMessage(9, values_.get(i));
+        output.writeMessage(10, values_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -941,34 +974,38 @@ public final class CollectRep {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(1, id_);
       }
+      if (tenantId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(2, tenantId_);
+      }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(app_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, app_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, app_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(metrics_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, metrics_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, metrics_);
       }
       if (priority_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(4, priority_);
+          .computeUInt32Size(5, priority_);
       }
       if (time_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(5, time_);
+          .computeUInt64Size(6, time_);
       }
       if (code_ != Code.SUCCESS.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(6, code_);
+          .computeEnumSize(7, code_);
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(msg_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, msg_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, msg_);
       }
       for (int i = 0; i < fields_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, fields_.get(i));
+          .computeMessageSize(9, fields_.get(i));
       }
       for (int i = 0; i < values_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, values_.get(i));
+          .computeMessageSize(10, values_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -987,6 +1024,8 @@ public final class CollectRep {
 
       if (getId()
           != other.getId()) return false;
+      if (getTenantId()
+          != other.getTenantId()) return false;
       if (!getApp()
           .equals(other.getApp())) return false;
       if (!getMetrics()
@@ -1016,6 +1055,9 @@ public final class CollectRep {
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getId());
+      hash = (37 * hash) + TENANTID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTenantId());
       hash = (37 * hash) + APP_FIELD_NUMBER;
       hash = (53 * hash) + getApp().hashCode();
       hash = (37 * hash) + METRICS_FIELD_NUMBER;
@@ -1174,6 +1216,8 @@ public final class CollectRep {
         super.clear();
         id_ = 0L;
 
+        tenantId_ = 0L;
+
         app_ = "";
 
         metrics_ = "";
@@ -1226,6 +1270,7 @@ public final class CollectRep {
         MetricsData result = new MetricsData(this);
         int from_bitField0_ = bitField0_;
         result.id_ = id_;
+        result.tenantId_ = tenantId_;
         result.app_ = app_;
         result.metrics_ = metrics_;
         result.priority_ = priority_;
@@ -1301,6 +1346,9 @@ public final class CollectRep {
         if (other.getId() != 0L) {
           setId(other.getId());
         }
+        if (other.getTenantId() != 0L) {
+          setTenantId(other.getTenantId());
+        }
         if (!other.getApp().isEmpty()) {
           app_ = other.app_;
           onChanged();
@@ -1340,7 +1388,7 @@ public final class CollectRep {
               fieldsBuilder_ = null;
               fields_ = other.fields_;
               bitField0_ = (bitField0_ & ~0x00000001);
-              fieldsBuilder_ =
+              fieldsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getFieldsFieldBuilder() : null;
             } else {
@@ -1366,7 +1414,7 @@ public final class CollectRep {
               valuesBuilder_ = null;
               values_ = other.values_;
               bitField0_ = (bitField0_ & ~0x00000002);
-              valuesBuilder_ =
+              valuesBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getValuesFieldBuilder() : null;
             } else {
@@ -1407,7 +1455,7 @@ public final class CollectRep {
       private long id_ ;
       /**
        * <pre>
-       * 监控的ID
+       * monitoring id
        * </pre>
        *
        * <code>uint64 id = 1;</code>
@@ -1419,7 +1467,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控的ID
+       * monitoring id
        * </pre>
        *
        * <code>uint64 id = 1;</code>
@@ -1434,7 +1482,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控的ID
+       * monitoring id
        * </pre>
        *
        * <code>uint64 id = 1;</code>
@@ -1447,13 +1495,56 @@ public final class CollectRep {
         return this;
       }
 
+      private long tenantId_ ;
+      /**
+       * <pre>
+       * tenant id
+       * </pre>
+       *
+       * <code>uint64 tenantId = 2;</code>
+       * @return The tenantId.
+       */
+      @Override
+      public long getTenantId() {
+        return tenantId_;
+      }
+      /**
+       * <pre>
+       * tenant id
+       * </pre>
+       *
+       * <code>uint64 tenantId = 2;</code>
+       * @param value The tenantId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTenantId(long value) {
+        
+        tenantId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * tenant id
+       * </pre>
+       *
+       * <code>uint64 tenantId = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTenantId() {
+        
+        tenantId_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private Object app_ = "";
       /**
        * <pre>
-       * 监控的类型 eg: linux | mysql | jvm
+       * monitoring app eg: linux | mysql | jvm
        * </pre>
        *
-       * <code>string app = 2;</code>
+       * <code>string app = 3;</code>
        * @return The app.
        */
       public String getApp() {
@@ -1470,17 +1561,17 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控的类型 eg: linux | mysql | jvm
+       * monitoring app eg: linux | mysql | jvm
        * </pre>
        *
-       * <code>string app = 2;</code>
+       * <code>string app = 3;</code>
        * @return The bytes for app.
        */
       public com.google.protobuf.ByteString
           getAppBytes() {
         Object ref = app_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (String) ref);
           app_ = b;
@@ -1491,10 +1582,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控的类型 eg: linux | mysql | jvm
+       * monitoring app eg: linux | mysql | jvm
        * </pre>
        *
-       * <code>string app = 2;</code>
+       * <code>string app = 3;</code>
        * @param value The app to set.
        * @return This builder for chaining.
        */
@@ -1510,10 +1601,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控的类型 eg: linux | mysql | jvm
+       * monitoring app eg: linux | mysql | jvm
        * </pre>
        *
-       * <code>string app = 2;</code>
+       * <code>string app = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearApp() {
@@ -1524,10 +1615,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控的类型 eg: linux | mysql | jvm
+       * monitoring app eg: linux | mysql | jvm
        * </pre>
        *
-       * <code>string app = 2;</code>
+       * <code>string app = 3;</code>
        * @param value The bytes for app to set.
        * @return This builder for chaining.
        */
@@ -1546,10 +1637,10 @@ public final class CollectRep {
       private Object metrics_ = "";
       /**
        * <pre>
-       * 监控采集的指标集合 eg: cpu | memory | health
+       * monitoring metrics eg: cpu | memory | health
        * </pre>
        *
-       * <code>string metrics = 3;</code>
+       * <code>string metrics = 4;</code>
        * @return The metrics.
        */
       public String getMetrics() {
@@ -1566,17 +1657,17 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控采集的指标集合 eg: cpu | memory | health
+       * monitoring metrics eg: cpu | memory | health
        * </pre>
        *
-       * <code>string metrics = 3;</code>
+       * <code>string metrics = 4;</code>
        * @return The bytes for metrics.
        */
       public com.google.protobuf.ByteString
           getMetricsBytes() {
         Object ref = metrics_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (String) ref);
           metrics_ = b;
@@ -1587,10 +1678,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控采集的指标集合 eg: cpu | memory | health
+       * monitoring metrics eg: cpu | memory | health
        * </pre>
        *
-       * <code>string metrics = 3;</code>
+       * <code>string metrics = 4;</code>
        * @param value The metrics to set.
        * @return This builder for chaining.
        */
@@ -1606,10 +1697,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控采集的指标集合 eg: cpu | memory | health
+       * monitoring metrics eg: cpu | memory | health
        * </pre>
        *
-       * <code>string metrics = 3;</code>
+       * <code>string metrics = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearMetrics() {
@@ -1620,10 +1711,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控采集的指标集合 eg: cpu | memory | health
+       * monitoring metrics eg: cpu | memory | health
        * </pre>
        *
-       * <code>string metrics = 3;</code>
+       * <code>string metrics = 4;</code>
        * @param value The bytes for metrics to set.
        * @return This builder for chaining.
        */
@@ -1642,10 +1733,10 @@ public final class CollectRep {
       private int priority_ ;
       /**
        * <pre>
-       * 监控采集指标集合的采集优先级&gt;=0
+       * monitoring collect priority &gt;=0
        * </pre>
        *
-       * <code>uint32 priority = 4;</code>
+       * <code>uint32 priority = 5;</code>
        * @return The priority.
        */
       @Override
@@ -1654,10 +1745,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控采集指标集合的采集优先级&gt;=0
+       * monitoring collect priority &gt;=0
        * </pre>
        *
-       * <code>uint32 priority = 4;</code>
+       * <code>uint32 priority = 5;</code>
        * @param value The priority to set.
        * @return This builder for chaining.
        */
@@ -1669,10 +1760,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 监控采集指标集合的采集优先级&gt;=0
+       * monitoring collect priority &gt;=0
        * </pre>
        *
-       * <code>uint32 priority = 4;</code>
+       * <code>uint32 priority = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearPriority() {
@@ -1685,10 +1776,10 @@ public final class CollectRep {
       private long time_ ;
       /**
        * <pre>
-       * 采集时间
+       * collect timestamp
        * </pre>
        *
-       * <code>uint64 time = 5;</code>
+       * <code>uint64 time = 6;</code>
        * @return The time.
        */
       @Override
@@ -1697,10 +1788,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集时间
+       * collect timestamp
        * </pre>
        *
-       * <code>uint64 time = 5;</code>
+       * <code>uint64 time = 6;</code>
        * @param value The time to set.
        * @return This builder for chaining.
        */
@@ -1712,10 +1803,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集时间
+       * collect timestamp
        * </pre>
        *
-       * <code>uint64 time = 5;</code>
+       * <code>uint64 time = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearTime() {
@@ -1728,10 +1819,10 @@ public final class CollectRep {
       private int code_ = 0;
       /**
        * <pre>
-       * 采集响应码
+       * collect response code
        * </pre>
        *
-       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
        * @return The enum numeric value on the wire for code.
        */
       @Override public int getCodeValue() {
@@ -1739,10 +1830,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应码
+       * collect response code
        * </pre>
        *
-       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
        * @param value The enum numeric value on the wire for code to set.
        * @return This builder for chaining.
        */
@@ -1754,10 +1845,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应码
+       * collect response code
        * </pre>
        *
-       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
        * @return The code.
        */
       @Override
@@ -1768,10 +1859,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应码
+       * collect response code
        * </pre>
        *
-       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
        * @param value The code to set.
        * @return This builder for chaining.
        */
@@ -1786,10 +1877,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应码
+       * collect response code
        * </pre>
        *
-       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 6;</code>
+       * <code>.org.dromara.hertzbeat.common.entity.message.Code code = 7;</code>
        * @return This builder for chaining.
        */
       public Builder clearCode() {
@@ -1802,10 +1893,10 @@ public final class CollectRep {
       private Object msg_ = "";
       /**
        * <pre>
-       * 采集响应信息
+       * collect response error message
        * </pre>
        *
-       * <code>string msg = 7;</code>
+       * <code>string msg = 8;</code>
        * @return The msg.
        */
       public String getMsg() {
@@ -1822,17 +1913,17 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应信息
+       * collect response error message
        * </pre>
        *
-       * <code>string msg = 7;</code>
+       * <code>string msg = 8;</code>
        * @return The bytes for msg.
        */
       public com.google.protobuf.ByteString
           getMsgBytes() {
         Object ref = msg_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (String) ref);
           msg_ = b;
@@ -1843,10 +1934,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应信息
+       * collect response error message
        * </pre>
        *
-       * <code>string msg = 7;</code>
+       * <code>string msg = 8;</code>
        * @param value The msg to set.
        * @return This builder for chaining.
        */
@@ -1862,10 +1953,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应信息
+       * collect response error message
        * </pre>
        *
-       * <code>string msg = 7;</code>
+       * <code>string msg = 8;</code>
        * @return This builder for chaining.
        */
       public Builder clearMsg() {
@@ -1876,10 +1967,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集响应信息
+       * collect response error message
        * </pre>
        *
-       * <code>string msg = 7;</code>
+       * <code>string msg = 8;</code>
        * @param value The bytes for msg to set.
        * @return This builder for chaining.
        */
@@ -1909,10 +2000,10 @@ public final class CollectRep {
 
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public java.util.List<Field> getFieldsList() {
         if (fieldsBuilder_ == null) {
@@ -1923,10 +2014,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public int getFieldsCount() {
         if (fieldsBuilder_ == null) {
@@ -1937,10 +2028,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Field getFields(int index) {
         if (fieldsBuilder_ == null) {
@@ -1951,10 +2042,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder setFields(
           int index, Field value) {
@@ -1972,10 +2063,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder setFields(
           int index, Field.Builder builderForValue) {
@@ -1990,10 +2081,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder addFields(Field value) {
         if (fieldsBuilder_ == null) {
@@ -2010,10 +2101,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder addFields(
           int index, Field value) {
@@ -2031,10 +2122,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder addFields(
           Field.Builder builderForValue) {
@@ -2049,10 +2140,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder addFields(
           int index, Field.Builder builderForValue) {
@@ -2067,10 +2158,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder addAllFields(
           Iterable<? extends Field> values) {
@@ -2086,10 +2177,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder clearFields() {
         if (fieldsBuilder_ == null) {
@@ -2103,10 +2194,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Builder removeFields(int index) {
         if (fieldsBuilder_ == null) {
@@ -2120,10 +2211,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Field.Builder getFieldsBuilder(
           int index) {
@@ -2131,10 +2222,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public FieldOrBuilder getFieldsOrBuilder(
           int index) {
@@ -2145,12 +2236,12 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
-      public java.util.List<? extends FieldOrBuilder>
+      public java.util.List<? extends FieldOrBuilder> 
            getFieldsOrBuilderList() {
         if (fieldsBuilder_ != null) {
           return fieldsBuilder_.getMessageOrBuilderList();
@@ -2160,10 +2251,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Field.Builder addFieldsBuilder() {
         return getFieldsFieldBuilder().addBuilder(
@@ -2171,10 +2262,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
       public Field.Builder addFieldsBuilder(
           int index) {
@@ -2183,17 +2274,17 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标名
+       * monitoring collect metric field
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 8;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.Field fields = 9;</code>
        */
-      public java.util.List<Field.Builder>
+      public java.util.List<Field.Builder> 
            getFieldsBuilderList() {
         return getFieldsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          Field, Field.Builder, FieldOrBuilder>
+          Field, Field.Builder, FieldOrBuilder> 
           getFieldsFieldBuilder() {
         if (fieldsBuilder_ == null) {
           fieldsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
@@ -2221,10 +2312,10 @@ public final class CollectRep {
 
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public java.util.List<ValueRow> getValuesList() {
         if (valuesBuilder_ == null) {
@@ -2235,10 +2326,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public int getValuesCount() {
         if (valuesBuilder_ == null) {
@@ -2249,10 +2340,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public ValueRow getValues(int index) {
         if (valuesBuilder_ == null) {
@@ -2263,10 +2354,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder setValues(
           int index, ValueRow value) {
@@ -2284,10 +2375,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder setValues(
           int index, ValueRow.Builder builderForValue) {
@@ -2302,10 +2393,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder addValues(ValueRow value) {
         if (valuesBuilder_ == null) {
@@ -2322,10 +2413,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder addValues(
           int index, ValueRow value) {
@@ -2343,10 +2434,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder addValues(
           ValueRow.Builder builderForValue) {
@@ -2361,10 +2452,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder addValues(
           int index, ValueRow.Builder builderForValue) {
@@ -2379,10 +2470,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder addAllValues(
           Iterable<? extends ValueRow> values) {
@@ -2398,10 +2489,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder clearValues() {
         if (valuesBuilder_ == null) {
@@ -2415,10 +2506,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public Builder removeValues(int index) {
         if (valuesBuilder_ == null) {
@@ -2432,10 +2523,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public ValueRow.Builder getValuesBuilder(
           int index) {
@@ -2443,10 +2534,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public ValueRowOrBuilder getValuesOrBuilder(
           int index) {
@@ -2457,12 +2548,12 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
-      public java.util.List<? extends ValueRowOrBuilder>
+      public java.util.List<? extends ValueRowOrBuilder> 
            getValuesOrBuilderList() {
         if (valuesBuilder_ != null) {
           return valuesBuilder_.getMessageOrBuilderList();
@@ -2472,10 +2563,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public ValueRow.Builder addValuesBuilder() {
         return getValuesFieldBuilder().addBuilder(
@@ -2483,10 +2574,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
       public ValueRow.Builder addValuesBuilder(
           int index) {
@@ -2495,17 +2586,17 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值集合(fields作为字段名称与ValueRow映射)
+       * monitoring collect metric data, mapping with the fields
        * </pre>
        *
-       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 9;</code>
+       * <code>repeated .org.dromara.hertzbeat.common.entity.message.ValueRow values = 10;</code>
        */
-      public java.util.List<ValueRow.Builder>
+      public java.util.List<ValueRow.Builder> 
            getValuesBuilderList() {
         return getValuesFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          ValueRow, ValueRow.Builder, ValueRowOrBuilder>
+          ValueRow, ValueRow.Builder, ValueRowOrBuilder> 
           getValuesFieldBuilder() {
         if (valuesBuilder_ == null) {
           valuesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
@@ -2577,7 +2668,7 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 指标采集字符名称
+     * monitoring collect metric field name
      * </pre>
      *
      * <code>string name = 1;</code>
@@ -2586,7 +2677,7 @@ public final class CollectRep {
     String getName();
     /**
      * <pre>
-     * 指标采集字符名称
+     * monitoring collect metric field name
      * </pre>
      *
      * <code>string name = 1;</code>
@@ -2597,7 +2688,7 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 字段类型：0-number数字 1-string字符串
+     * monitoring collect metrics field type, 0-number 1-string
      * </pre>
      *
      * <code>uint32 type = 2;</code>
@@ -2607,7 +2698,7 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * metric value unit
+     * monitoring collect metrics field unit, % MB GB TB S...
      * </pre>
      *
      * <code>string unit = 3;</code>
@@ -2616,7 +2707,7 @@ public final class CollectRep {
     String getUnit();
     /**
      * <pre>
-     * metric value unit
+     * monitoring collect metrics field unit, % MB GB TB S...
      * </pre>
      *
      * <code>string unit = 3;</code>
@@ -2624,6 +2715,16 @@ public final class CollectRep {
      */
     com.google.protobuf.ByteString
         getUnitBytes();
+
+    /**
+     * <pre>
+     * is label field
+     * </pre>
+     *
+     * <code>bool label = 4;</code>
+     * @return The label.
+     */
+    boolean getLabel();
   }
   /**
    * Protobuf type {@code org.dromara.hertzbeat.common.entity.message.Field}
@@ -2689,6 +2790,11 @@ public final class CollectRep {
               unit_ = s;
               break;
             }
+            case 32: {
+
+              label_ = input.readBool();
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -2727,7 +2833,7 @@ public final class CollectRep {
     private volatile Object name_;
     /**
      * <pre>
-     * 指标采集字符名称
+     * monitoring collect metric field name
      * </pre>
      *
      * <code>string name = 1;</code>
@@ -2739,7 +2845,7 @@ public final class CollectRep {
       if (ref instanceof String) {
         return (String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         name_ = s;
@@ -2748,7 +2854,7 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 指标采集字符名称
+     * monitoring collect metric field name
      * </pre>
      *
      * <code>string name = 1;</code>
@@ -2759,7 +2865,7 @@ public final class CollectRep {
         getNameBytes() {
       Object ref = name_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (String) ref);
         name_ = b;
@@ -2773,7 +2879,7 @@ public final class CollectRep {
     private int type_;
     /**
      * <pre>
-     * 字段类型：0-number数字 1-string字符串
+     * monitoring collect metrics field type, 0-number 1-string
      * </pre>
      *
      * <code>uint32 type = 2;</code>
@@ -2788,7 +2894,7 @@ public final class CollectRep {
     private volatile Object unit_;
     /**
      * <pre>
-     * metric value unit
+     * monitoring collect metrics field unit, % MB GB TB S...
      * </pre>
      *
      * <code>string unit = 3;</code>
@@ -2800,7 +2906,7 @@ public final class CollectRep {
       if (ref instanceof String) {
         return (String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         unit_ = s;
@@ -2809,7 +2915,7 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * metric value unit
+     * monitoring collect metrics field unit, % MB GB TB S...
      * </pre>
      *
      * <code>string unit = 3;</code>
@@ -2820,7 +2926,7 @@ public final class CollectRep {
         getUnitBytes() {
       Object ref = unit_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (String) ref);
         unit_ = b;
@@ -2828,6 +2934,21 @@ public final class CollectRep {
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
+    }
+
+    public static final int LABEL_FIELD_NUMBER = 4;
+    private boolean label_;
+    /**
+     * <pre>
+     * is label field
+     * </pre>
+     *
+     * <code>bool label = 4;</code>
+     * @return The label.
+     */
+    @Override
+    public boolean getLabel() {
+      return label_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2853,6 +2974,9 @@ public final class CollectRep {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(unit_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, unit_);
       }
+      if (label_ != false) {
+        output.writeBool(4, label_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2871,6 +2995,10 @@ public final class CollectRep {
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(unit_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, unit_);
+      }
+      if (label_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, label_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2893,6 +3021,8 @@ public final class CollectRep {
           != other.getType()) return false;
       if (!getUnit()
           .equals(other.getUnit())) return false;
+      if (getLabel()
+          != other.getLabel()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -2910,6 +3040,9 @@ public final class CollectRep {
       hash = (53 * hash) + getType();
       hash = (37 * hash) + UNIT_FIELD_NUMBER;
       hash = (53 * hash) + getUnit().hashCode();
+      hash = (37 * hash) + LABEL_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getLabel());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3049,6 +3182,8 @@ public final class CollectRep {
 
         unit_ = "";
 
+        label_ = false;
+
         return this;
       }
 
@@ -3078,6 +3213,7 @@ public final class CollectRep {
         result.name_ = name_;
         result.type_ = type_;
         result.unit_ = unit_;
+        result.label_ = label_;
         onBuilt();
         return result;
       }
@@ -3137,6 +3273,9 @@ public final class CollectRep {
           unit_ = other.unit_;
           onChanged();
         }
+        if (other.getLabel() != false) {
+          setLabel(other.getLabel());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3169,7 +3308,7 @@ public final class CollectRep {
       private Object name_ = "";
       /**
        * <pre>
-       * 指标采集字符名称
+       * monitoring collect metric field name
        * </pre>
        *
        * <code>string name = 1;</code>
@@ -3189,7 +3328,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 指标采集字符名称
+       * monitoring collect metric field name
        * </pre>
        *
        * <code>string name = 1;</code>
@@ -3199,7 +3338,7 @@ public final class CollectRep {
           getNameBytes() {
         Object ref = name_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (String) ref);
           name_ = b;
@@ -3210,7 +3349,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 指标采集字符名称
+       * monitoring collect metric field name
        * </pre>
        *
        * <code>string name = 1;</code>
@@ -3229,7 +3368,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 指标采集字符名称
+       * monitoring collect metric field name
        * </pre>
        *
        * <code>string name = 1;</code>
@@ -3243,7 +3382,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 指标采集字符名称
+       * monitoring collect metric field name
        * </pre>
        *
        * <code>string name = 1;</code>
@@ -3265,7 +3404,7 @@ public final class CollectRep {
       private int type_ ;
       /**
        * <pre>
-       * 字段类型：0-number数字 1-string字符串
+       * monitoring collect metrics field type, 0-number 1-string
        * </pre>
        *
        * <code>uint32 type = 2;</code>
@@ -3277,7 +3416,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 字段类型：0-number数字 1-string字符串
+       * monitoring collect metrics field type, 0-number 1-string
        * </pre>
        *
        * <code>uint32 type = 2;</code>
@@ -3292,7 +3431,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 字段类型：0-number数字 1-string字符串
+       * monitoring collect metrics field type, 0-number 1-string
        * </pre>
        *
        * <code>uint32 type = 2;</code>
@@ -3308,7 +3447,7 @@ public final class CollectRep {
       private Object unit_ = "";
       /**
        * <pre>
-       * metric value unit
+       * monitoring collect metrics field unit, % MB GB TB S...
        * </pre>
        *
        * <code>string unit = 3;</code>
@@ -3328,7 +3467,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * metric value unit
+       * monitoring collect metrics field unit, % MB GB TB S...
        * </pre>
        *
        * <code>string unit = 3;</code>
@@ -3338,7 +3477,7 @@ public final class CollectRep {
           getUnitBytes() {
         Object ref = unit_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (String) ref);
           unit_ = b;
@@ -3349,7 +3488,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * metric value unit
+       * monitoring collect metrics field unit, % MB GB TB S...
        * </pre>
        *
        * <code>string unit = 3;</code>
@@ -3368,7 +3507,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * metric value unit
+       * monitoring collect metrics field unit, % MB GB TB S...
        * </pre>
        *
        * <code>string unit = 3;</code>
@@ -3382,7 +3521,7 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * metric value unit
+       * monitoring collect metrics field unit, % MB GB TB S...
        * </pre>
        *
        * <code>string unit = 3;</code>
@@ -3397,6 +3536,49 @@ public final class CollectRep {
   checkByteStringIsUtf8(value);
         
         unit_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean label_ ;
+      /**
+       * <pre>
+       * is label field
+       * </pre>
+       *
+       * <code>bool label = 4;</code>
+       * @return The label.
+       */
+      @Override
+      public boolean getLabel() {
+        return label_;
+      }
+      /**
+       * <pre>
+       * is label field
+       * </pre>
+       *
+       * <code>bool label = 4;</code>
+       * @param value The label to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLabel(boolean value) {
+        
+        label_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * is label field
+       * </pre>
+       *
+       * <code>bool label = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLabel() {
+        
+        label_ = false;
         onChanged();
         return this;
       }
@@ -3459,59 +3641,39 @@ public final class CollectRep {
 
     /**
      * <pre>
-     * 主键实例，唯一标识这行数据
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>string instance = 1;</code>
-     * @return The instance.
-     */
-    String getInstance();
-    /**
-     * <pre>
-     * 主键实例，唯一标识这行数据
-     * </pre>
-     *
-     * <code>string instance = 1;</code>
-     * @return The bytes for instance.
-     */
-    com.google.protobuf.ByteString
-        getInstanceBytes();
-
-    /**
-     * <pre>
-     * 采集指标值
-     * </pre>
-     *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @return A list containing the columns.
      */
     java.util.List<String>
         getColumnsList();
     /**
      * <pre>
-     * 采集指标值
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @return The count of columns.
      */
     int getColumnsCount();
     /**
      * <pre>
-     * 采集指标值
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @param index The index of the element to return.
      * @return The columns at the given index.
      */
     String getColumns(int index);
     /**
      * <pre>
-     * 采集指标值
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the columns at the given index.
      */
@@ -3531,7 +3693,6 @@ public final class CollectRep {
       super(builder);
     }
     private ValueRow() {
-      instance_ = "";
       columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
@@ -3567,12 +3728,6 @@ public final class CollectRep {
               done = true;
               break;
             case 10: {
-              String s = input.readStringRequireUtf8();
-
-              instance_ = s;
-              break;
-            }
-            case 18: {
               String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 columns_ = new com.google.protobuf.LazyStringArrayList();
@@ -3618,60 +3773,14 @@ public final class CollectRep {
               ValueRow.class, Builder.class);
     }
 
-    public static final int INSTANCE_FIELD_NUMBER = 1;
-    private volatile Object instance_;
-    /**
-     * <pre>
-     * 主键实例，唯一标识这行数据
-     * </pre>
-     *
-     * <code>string instance = 1;</code>
-     * @return The instance.
-     */
-    @Override
-    public String getInstance() {
-      Object ref = instance_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        instance_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     * 主键实例，唯一标识这行数据
-     * </pre>
-     *
-     * <code>string instance = 1;</code>
-     * @return The bytes for instance.
-     */
-    @Override
-    public com.google.protobuf.ByteString
-        getInstanceBytes() {
-      Object ref = instance_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (String) ref);
-        instance_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int COLUMNS_FIELD_NUMBER = 2;
+    public static final int COLUMNS_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList columns_;
     /**
      * <pre>
-     * 采集指标值
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @return A list containing the columns.
      */
     public com.google.protobuf.ProtocolStringList
@@ -3680,10 +3789,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标值
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @return The count of columns.
      */
     public int getColumnsCount() {
@@ -3691,10 +3800,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标值
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @param index The index of the element to return.
      * @return The columns at the given index.
      */
@@ -3703,10 +3812,10 @@ public final class CollectRep {
     }
     /**
      * <pre>
-     * 采集指标值
+     * monitoring collect metrics value, mapping with the fields
      * </pre>
      *
-     * <code>repeated string columns = 2;</code>
+     * <code>repeated string columns = 1;</code>
      * @param index The index of the value to return.
      * @return The bytes of the columns at the given index.
      */
@@ -3729,11 +3838,8 @@ public final class CollectRep {
     @Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(instance_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, instance_);
-      }
       for (int i = 0; i < columns_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, columns_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, columns_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -3744,9 +3850,6 @@ public final class CollectRep {
       if (size != -1) return size;
 
       size = 0;
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(instance_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, instance_);
-      }
       {
         int dataSize = 0;
         for (int i = 0; i < columns_.size(); i++) {
@@ -3770,8 +3873,6 @@ public final class CollectRep {
       }
       ValueRow other = (ValueRow) obj;
 
-      if (!getInstance()
-          .equals(other.getInstance())) return false;
       if (!getColumnsList()
           .equals(other.getColumnsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -3785,8 +3886,6 @@ public final class CollectRep {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + INSTANCE_FIELD_NUMBER;
-      hash = (53 * hash) + getInstance().hashCode();
       if (getColumnsCount() > 0) {
         hash = (37 * hash) + COLUMNS_FIELD_NUMBER;
         hash = (53 * hash) + getColumnsList().hashCode();
@@ -3924,8 +4023,6 @@ public final class CollectRep {
       @Override
       public Builder clear() {
         super.clear();
-        instance_ = "";
-
         columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
@@ -3955,7 +4052,6 @@ public final class CollectRep {
       public ValueRow buildPartial() {
         ValueRow result = new ValueRow(this);
         int from_bitField0_ = bitField0_;
-        result.instance_ = instance_;
         if (((bitField0_ & 0x00000001) != 0)) {
           columns_ = columns_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -4009,10 +4105,6 @@ public final class CollectRep {
 
       public Builder mergeFrom(ValueRow other) {
         if (other == ValueRow.getDefaultInstance()) return this;
-        if (!other.getInstance().isEmpty()) {
-          instance_ = other.instance_;
-          onChanged();
-        }
         if (!other.columns_.isEmpty()) {
           if (columns_.isEmpty()) {
             columns_ = other.columns_;
@@ -4053,102 +4145,6 @@ public final class CollectRep {
       }
       private int bitField0_;
 
-      private Object instance_ = "";
-      /**
-       * <pre>
-       * 主键实例，唯一标识这行数据
-       * </pre>
-       *
-       * <code>string instance = 1;</code>
-       * @return The instance.
-       */
-      public String getInstance() {
-        Object ref = instance_;
-        if (!(ref instanceof String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          String s = bs.toStringUtf8();
-          instance_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
-      }
-      /**
-       * <pre>
-       * 主键实例，唯一标识这行数据
-       * </pre>
-       *
-       * <code>string instance = 1;</code>
-       * @return The bytes for instance.
-       */
-      public com.google.protobuf.ByteString
-          getInstanceBytes() {
-        Object ref = instance_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (String) ref);
-          instance_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       * 主键实例，唯一标识这行数据
-       * </pre>
-       *
-       * <code>string instance = 1;</code>
-       * @param value The instance to set.
-       * @return This builder for chaining.
-       */
-      public Builder setInstance(
-          String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        instance_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 主键实例，唯一标识这行数据
-       * </pre>
-       *
-       * <code>string instance = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearInstance() {
-        
-        instance_ = getDefaultInstance().getInstance();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * 主键实例，唯一标识这行数据
-       * </pre>
-       *
-       * <code>string instance = 1;</code>
-       * @param value The bytes for instance to set.
-       * @return This builder for chaining.
-       */
-      public Builder setInstanceBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        instance_ = value;
-        onChanged();
-        return this;
-      }
-
       private com.google.protobuf.LazyStringList columns_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureColumnsIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
@@ -4158,10 +4154,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @return A list containing the columns.
        */
       public com.google.protobuf.ProtocolStringList
@@ -4170,10 +4166,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @return The count of columns.
        */
       public int getColumnsCount() {
@@ -4181,10 +4177,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @param index The index of the element to return.
        * @return The columns at the given index.
        */
@@ -4193,10 +4189,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @param index The index of the value to return.
        * @return The bytes of the columns at the given index.
        */
@@ -4206,10 +4202,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @param index The index to set the value at.
        * @param value The columns to set.
        * @return This builder for chaining.
@@ -4226,10 +4222,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @param value The columns to add.
        * @return This builder for chaining.
        */
@@ -4245,10 +4241,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @param values The columns to add.
        * @return This builder for chaining.
        */
@@ -4262,10 +4258,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearColumns() {
@@ -4276,10 +4272,10 @@ public final class CollectRep {
       }
       /**
        * <pre>
-       * 采集指标值
+       * monitoring collect metrics value, mapping with the fields
        * </pre>
        *
-       * <code>repeated string columns = 2;</code>
+       * <code>repeated string columns = 1;</code>
        * @param value The bytes of the columns to add.
        * @return This builder for chaining.
        */
@@ -4349,17 +4345,17 @@ public final class CollectRep {
 
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_org_dromara_hertzbeat_common_entity_message_MetricsData_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_dromara_hertzbeat_common_entity_message_MetricsData_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_org_dromara_hertzbeat_common_entity_message_Field_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_dromara_hertzbeat_common_entity_message_Field_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_org_dromara_hertzbeat_common_entity_message_ValueRow_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_org_dromara_hertzbeat_common_entity_message_ValueRow_fieldAccessorTable;
 
@@ -4372,20 +4368,20 @@ public final class CollectRep {
   static {
     String[] descriptorData = {
       "\n\021collect_rep.proto\022+org.dromara.hertzbe" +
-      "at.common.entity.message\"\260\002\n\013MetricsData" +
-      "\022\n\n\002id\030\001 \001(\004\022\013\n\003app\030\002 \001(\t\022\017\n\007metrics\030\003 \001" +
-      "(\t\022\020\n\010priority\030\004 \001(\r\022\014\n\004time\030\005 \001(\004\022?\n\004co" +
-      "de\030\006 \001(\01621.org.dromara.hertzbeat.common." +
-      "entity.message.Code\022\013\n\003msg\030\007 \001(\t\022B\n\006fiel" +
-      "ds\030\010 \003(\01322.org.dromara.hertzbeat.common." +
-      "entity.message.Field\022E\n\006values\030\t \003(\01325.o" +
-      "rg.dromara.hertzbeat.common.entity.messa" +
-      "ge.ValueRow\"1\n\005Field\022\014\n\004name\030\001 \001(\t\022\014\n\004ty" +
-      "pe\030\002 \001(\r\022\014\n\004unit\030\003 \001(\t\"-\n\010ValueRow\022\020\n\010in" +
-      "stance\030\001 \001(\t\022\017\n\007columns\030\002 \003(\t*b\n\004Code\022\013\n" +
-      "\007SUCCESS\020\000\022\020\n\014UN_AVAILABLE\020\001\022\020\n\014UN_REACH" +
-      "ABLE\020\002\022\022\n\016UN_CONNECTABLE\020\003\022\010\n\004FAIL\020\004\022\013\n\007" +
-      "TIMEOUT\020\005b\006proto3"
+      "at.common.entity.message\"\302\002\n\013MetricsData" +
+      "\022\n\n\002id\030\001 \001(\004\022\020\n\010tenantId\030\002 \001(\004\022\013\n\003app\030\003 " +
+      "\001(\t\022\017\n\007metrics\030\004 \001(\t\022\020\n\010priority\030\005 \001(\r\022\014" +
+      "\n\004time\030\006 \001(\004\022?\n\004code\030\007 \001(\01621.org.dromara" +
+      ".hertzbeat.common.entity.message.Code\022\013\n" +
+      "\003msg\030\010 \001(\t\022B\n\006fields\030\t \003(\01322.org.dromara" +
+      ".hertzbeat.common.entity.message.Field\022E" +
+      "\n\006values\030\n \003(\01325.org.dromara.hertzbeat.c" +
+      "ommon.entity.message.ValueRow\"@\n\005Field\022\014" +
+      "\n\004name\030\001 \001(\t\022\014\n\004type\030\002 \001(\r\022\014\n\004unit\030\003 \001(\t" +
+      "\022\r\n\005label\030\004 \001(\010\"\033\n\010ValueRow\022\017\n\007columns\030\001" +
+      " \003(\t*b\n\004Code\022\013\n\007SUCCESS\020\000\022\020\n\014UN_AVAILABL" +
+      "E\020\001\022\020\n\014UN_REACHABLE\020\002\022\022\n\016UN_CONNECTABLE\020" +
+      "\003\022\010\n\004FAIL\020\004\022\013\n\007TIMEOUT\020\005b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4396,19 +4392,19 @@ public final class CollectRep {
     internal_static_org_dromara_hertzbeat_common_entity_message_MetricsData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_dromara_hertzbeat_common_entity_message_MetricsData_descriptor,
-        new String[] { "Id", "App", "Metrics", "Priority", "Time", "Code", "Msg", "Fields", "Values", });
+        new String[] { "Id", "TenantId", "App", "Metrics", "Priority", "Time", "Code", "Msg", "Fields", "Values", });
     internal_static_org_dromara_hertzbeat_common_entity_message_Field_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_org_dromara_hertzbeat_common_entity_message_Field_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_dromara_hertzbeat_common_entity_message_Field_descriptor,
-        new String[] { "Name", "Type", "Unit", });
+        new String[] { "Name", "Type", "Unit", "Label", });
     internal_static_org_dromara_hertzbeat_common_entity_message_ValueRow_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_org_dromara_hertzbeat_common_entity_message_ValueRow_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_org_dromara_hertzbeat_common_entity_message_ValueRow_descriptor,
-        new String[] { "Instance", "Columns", });
+        new String[] { "Columns", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

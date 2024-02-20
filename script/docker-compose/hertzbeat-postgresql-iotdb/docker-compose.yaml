@@ -37,7 +37,7 @@ services:
       - hertzbeat
 
   iotdb:
-    image: apache/iotdb:0.13.3-node
+    image: apache/iotdb:1.2.2-standalone
     container_name: compose-iotdb
     hostname: iotdb
     restart: always
@@ -67,5 +67,6 @@ services:
       - ./conf/sureness.yml:/opt/hertzbeat/config/sureness.yml
     ports:
       - "1157:1157"
+      - "1158:1158"
     networks:
       - hertzbeat

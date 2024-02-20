@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
@@ -6,11 +6,12 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ALAIN_I18N_TOKEN, Menu, MenuService, SettingsService, TitleService } from '@delon/theme';
 import type { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzIconService } from 'ng-zorro-antd/icon';
-import { Observable, zip, of } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
+import { MemoryStorageService } from '../../service/memory-storage.service';
 import { I18NService } from '../i18n/i18n.service';
 /**
  * Used for application startup
@@ -29,7 +30,8 @@ export class StartupService {
     private titleService: TitleService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
+    private storageService: MemoryStorageService
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
     iconSrv.fetchFromIconfont({
@@ -39,9 +41,10 @@ export class StartupService {
 
   public loadConfigResourceViaHttp(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
+    const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
     return zip(
       this.i18n.loadLangData(defaultLang),
-      this.httpClient.get('./assets/app-data.json'),
+      this.httpClient.get('./assets/app-data.json', { headers: headers }),
       this.httpClient.get('/apps/hierarchy')
     ).pipe(
       catchError((res: NzSafeAny) => {
@@ -57,7 +60,7 @@ export class StartupService {
         // Application information: including site name, description, year
         this.settingService.setApp(appData.app);
         // https://ng-alain.com/theme/settings/zh
-        this.settingService.setLayout('collapsed', true);
+        // this.settingService.setLayout('collapsed', true);
         // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
         this.aclService.setFull(true);
         // Menu data, https://ng-alain.com/theme/menu
@@ -74,7 +77,8 @@ export class StartupService {
             });
           }
         });
-        // 刷新菜单
+        this.storageService.putData('hierarchy', menuData.data);
+        // flush menu
         this.menuService.resume();
         // Can be set page suffix title, https://ng-alain.com/theme/title
         this.titleService.suffix = appData.app.name;

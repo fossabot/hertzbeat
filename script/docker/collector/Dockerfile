@@ -1,14 +1,18 @@
 FROM openjdk:11.0.16-jre-slim-buster
 
+ARG VERSION
+
 MAINTAINER tancloud "tomsun28@outlook.com"
 
-ADD hertzbeat-collector-1.3.1.tar /opt/
+# Install SSH
+RUN apt-get update && apt-get install -y openssh-server 
+RUN mkdir /var/run/sshd
+
+ADD hertzbeat-collector-${VERSION}.tar /opt/
 
 ENV TZ=Asia/Shanghai
-#ENV LANG=zh_CN.UTF-8
+ENV LANG=en_US.UTF-8
 
-EXPOSE 1158
-
-WORKDIR /opt/hertzbeat/
+WORKDIR /opt/hertzbeat-collector/
 
 ENTRYPOINT ["./bin/entrypoint.sh"]

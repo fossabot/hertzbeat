@@ -14,13 +14,11 @@ import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * ftp protocol collection implementation
- * ftp协议采集实现
- *
  * @author 落阳
- *
  */
 @Slf4j
 public class FtpCollectImpl extends AbstractCollect {
@@ -29,7 +27,7 @@ public class FtpCollectImpl extends AbstractCollect {
     private final String PASSWORD = "password";
 
     @Override
-    public void collect(CollectRep.MetricsData.Builder builder, long appId, String app, Metrics metrics) {
+    public void collect(CollectRep.MetricsData.Builder builder, long monitorId, String app, Metrics metrics) {
         FTPClient ftpClient = new FTPClient();
         FtpProtocol ftpProtocol = metrics.getFtp();
         // Set timeout
@@ -51,11 +49,7 @@ public class FtpCollectImpl extends AbstractCollect {
             metrics.getAliasFields().forEach(it -> {
                 if (valueMap.containsKey(it)) {
                     String fieldValue = valueMap.get(it);
-                    if (fieldValue == null) {
-                        valueRowBuilder.addColumns(CommonConstants.NULL_VALUE);
-                    } else {
-                        valueRowBuilder.addColumns(fieldValue);
-                    }
+                    valueRowBuilder.addColumns(Objects.requireNonNullElse(fieldValue, CommonConstants.NULL_VALUE));
                 } else {
                     valueRowBuilder.addColumns(CommonConstants.NULL_VALUE);
                 }
@@ -70,10 +64,10 @@ public class FtpCollectImpl extends AbstractCollect {
 
     /**
      * collect data: key-value
-     * Please modify this, if you want to add some indicators.
+     * Please modify this, if you want to add some metrics.
      */
     private Map<String, String> collectValue(FTPClient ftpClient, FtpProtocol ftpProtocol) {
-        Boolean isActive;
+        boolean isActive;
         String responseTime;
         try {
             long startTime = System.currentTimeMillis();
@@ -82,14 +76,14 @@ public class FtpCollectImpl extends AbstractCollect {
             // In here, we can do some extended operation without changing the architecture
             isActive = ftpClient.changeWorkingDirectory(ftpProtocol.getDirection());
             long endTime = System.currentTimeMillis();
-            responseTime = (endTime - startTime) + "";
+            responseTime = String.valueOf(endTime - startTime);
             ftpClient.disconnect();
         } catch (Exception e) {
             log.info("[FTPClient] error: {}", CommonUtil.getMessageFromThrowable(e), e);
             throw new IllegalArgumentException(e.getMessage());
         }
         return new HashMap<>(8) {{
-            put("isActive", isActive.toString());
+            put("isActive", Boolean.toString(isActive));
             put("responseTime", responseTime);
         }};
     }

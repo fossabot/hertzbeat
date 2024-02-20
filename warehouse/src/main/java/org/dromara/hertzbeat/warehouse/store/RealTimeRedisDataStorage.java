@@ -32,6 +32,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * redis存储采集实时数据
@@ -64,10 +67,18 @@ public class RealTimeRedisDataStorage extends AbstractRealTimeDataStorage {
     }
 
     @Override
+    public List<CollectRep.MetricsData> getCurrentMetricsData(@NonNull Long monitorId) {
+        RedisCommands<String, CollectRep.MetricsData> commands = connection.sync();
+        commands.select(db);
+        Map<String, CollectRep.MetricsData> metricsDataMap = commands.hgetall(String.valueOf(monitorId));
+        return new ArrayList<>(metricsDataMap.values());
+    }
+
+    @Override
     public void saveData(CollectRep.MetricsData metricsData) {
         String key = String.valueOf(metricsData.getId());
         String hashKey = metricsData.getMetrics();
-        if (metricsData.getCode() != CollectRep.Code.SUCCESS) {
+        if (metricsData.getCode() != CollectRep.Code.SUCCESS || !isServerAvailable()) {
             return;
         }
         if (metricsData.getValuesList().isEmpty()) {

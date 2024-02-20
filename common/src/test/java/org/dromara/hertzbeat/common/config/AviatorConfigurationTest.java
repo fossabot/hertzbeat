@@ -1,6 +1,7 @@
 package org.dromara.hertzbeat.common.config;
 
 import com.googlecode.aviator.AviatorEvaluator;
+import com.googlecode.aviator.exception.UnsupportedFeatureException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -55,11 +56,19 @@ class AviatorConfigurationTest {
         // test StrExistsFunction
         String expr6 = "exists('DNE_Key1')";
         Boolean res6 = (Boolean) AviatorEvaluator.compile(expr6).execute(env);
-        Assertions.assertFalse(res6);
+        Assertions.assertTrue(res6);
 
-        String expr7 = "exists('k6')";
+        String expr7 = "exists(k6)";
         Boolean res7 = (Boolean) AviatorEvaluator.compile(expr7).execute(env);
-        Assertions.assertTrue(res7);
+        Assertions.assertFalse(res7);
+        
+        String expr21 = "exists('k5')";
+        Boolean res21 = (Boolean) AviatorEvaluator.compile(expr21).execute(env);
+        Assertions.assertTrue(res21);
+        
+        String expr22 = "exists(k5)";
+        Boolean res22 = (Boolean) AviatorEvaluator.compile(expr22).execute(env);
+        Assertions.assertTrue(res22);
 
         // test StrMatchesFunction
         String regex1 = "'^[a-zA-Z0-9]+$'"; // only alphanumeric
@@ -87,5 +96,22 @@ class AviatorConfigurationTest {
         env.put("k7", "[LOG detected system error");
         Boolean res13 = (Boolean) AviatorEvaluator.compile(expr10).execute(env);
         Assertions.assertFalse(res13);
+    }
+
+    @Test
+    void testRCE() {
+        // test if 'new' syntax is disabled to prevent RCE
+        Assertions.assertThrows(UnsupportedFeatureException.class, () -> {
+            String expr1 = "let d = new java.util.Date();\n" +
+                    "p(type(d));\n" +
+                    "p(d);";
+            AviatorEvaluator.compile(expr1, true).execute();
+        });
+        // test allowed features
+        String expr2 = "let a = 0;\n" +
+                "if (\"#{a}\" == \"0\") { a = -1; }\n" +
+                "a == -1";
+        Boolean result = (Boolean) AviatorEvaluator.compile(expr2, true).execute();
+        Assertions.assertTrue(result);
     }
 }

@@ -18,10 +18,7 @@
 package org.dromara.hertzbeat.collector.dispatch;
 
 /**
- * dispatch  constant 常量
- *
- * @author tomsun28
- *
+ * dispatch  constant
  */
 public interface DispatchConstants {
 
@@ -39,6 +36,34 @@ public interface DispatchConstants {
      */
     String PROTOCOL_TELNET = "telnet";
     /**
+     * protocol nginx
+     */
+    String PROTOCOL_NGINX = "nginx";
+    /**
+     * protocol smtp
+     */
+    String PROTOCOL_SMTP = "smtp";
+    /**
+     * protocol ntp
+     */
+    String PROTOCOL_NTP = "ntp";
+    /**
+     * protocol websocket
+     */
+    String PROTOCOL_WEBSOCKET = "websocket";
+    /**
+     * protocol memcached
+     */
+    String PROTOCOL_MEMCACHED = "memcached";
+    /**
+     * protocol nebulagraph
+     */
+    String PROTOCOL_NEBULAGRAPH = "nebulaGraph";
+    /**
+     * protocol udp
+     */
+    String PROTOCOL_UDP = "udp";
+    /**
      * protocol jdbc
      */
     String PROTOCOL_JDBC = "jdbc";
@@ -50,15 +75,10 @@ public interface DispatchConstants {
      * protocol redis
      */
     String PROTOCOL_REDIS = "redis";
-
     /**
      * protocol mongodb
      */
     String PROTOCOL_MONGODB = "mongodb";
-    /**
-     * protocol
-     */
-    String PROTOCOL_DM = "dm";
     /**
      * protocol jmx
      */
@@ -79,6 +99,23 @@ public interface DispatchConstants {
      * protocol rocketmq
      */
     String PROTOCOL_ROCKETMQ = "rocketmq";
+    /**
+     * protocol push
+     */
+    String PROTOCOL_PUSH = "push";
+    /**
+     * protocol prometheus
+     */
+    String PROTOCOL_PROMETHEUS = "prometheus";
+    /**
+     * protocol dns
+     */
+    String PROTOCOL_DNS = "dns";
+    /**
+     * protocol pop3
+     */
+    String PROTOCOL_POP3 = "pop3";
+
     // Protocol type related - end
     // 协议类型相关 - end //
 
@@ -118,7 +155,7 @@ public interface DispatchConstants {
      */
     String PARSE_XML_PATH = "xmlPath";
     /**
-     * Analysis method  Website availability monitoring rules Provide responseTime indicators
+     * Analysis method  Website availability monitoring rules Provide responseTime metrics
      * 解析方式 网站可用性监控规则 提供responseTime指标
      */
     String PARSE_WEBSITE = "website";

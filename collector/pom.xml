@@ -51,10 +51,21 @@
             <groupId>org.dromara.hertzbeat</groupId>
             <artifactId>hertzbeat-common</artifactId>
         </dependency>
+        <!-- remoting -->
+        <dependency>
+            <groupId>org.dromara.hertzbeat</groupId>
+            <artifactId>hertzbeat-remoting</artifactId>
+        </dependency>
         <!-- validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- run sql script-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.3.23</version>
         </dependency>
         <!-- kafka -->
         <dependency>
@@ -161,6 +172,13 @@
             <artifactId>rocketmq-tools</artifactId>
             <version>4.9.4</version>
         </dependency>
+
+        <!--dns-->
+        <dependency>
+            <groupId>dnsjava</groupId>
+            <artifactId>dnsjava</artifactId>
+            <version>3.5.2</version>
+        </dependency>
     </dependencies>
     
     <profiles>
@@ -204,7 +222,9 @@
                         <includes>
                             <include>*.yml</include>
                             <include>*.properties</include>
+                            <include>*.xml</include>
                             <include>banner.txt</include>
+                            <include>META-INF/**</include>
                         </includes>
                     </resource>
                 </resources>
@@ -247,7 +267,7 @@
                         <version>${maven-assembly-plugin.version}</version>
                         <executions>
                             <execution>
-                                <id>make-zip</id>
+                                <id>without-jdk</id>
                                 <!--绑定的maven操作-->
                                 <phase>package</phase>
                                 <!--运行一次-->
@@ -257,6 +277,76 @@
                                 <configuration>
                                     <descriptors>
                                         <descriptor>../script/assembly/collector/assembly.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>make-macos-arm64</id>
+                                <!--绑定的maven操作-->
+                                <phase>package</phase>
+                                <!--运行一次-->
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>../script/assembly/collector/assembly-macos-arm64.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>make-macos-amd64</id>
+                                <!--绑定的maven操作-->
+                                <phase>package</phase>
+                                <!--运行一次-->
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>../script/assembly/collector/assembly-macos-amd64.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>make-linux-arm64</id>
+                                <!--绑定的maven操作-->
+                                <phase>package</phase>
+                                <!--运行一次-->
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>../script/assembly/collector/assembly-linux-arm64.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>make-linux-amd64</id>
+                                <!--绑定的maven操作-->
+                                <phase>package</phase>
+                                <!--运行一次-->
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>../script/assembly/collector/assembly-linux-amd64.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>make-windows-64</id>
+                                <!--绑定的maven操作-->
+                                <phase>package</phase>
+                                <!--运行一次-->
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>../script/assembly/collector/assembly-windows-64.xml</descriptor>
                                     </descriptors>
                                 </configuration>
                             </execution>

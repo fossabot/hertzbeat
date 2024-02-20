@@ -17,15 +17,16 @@
 
 package org.dromara.hertzbeat.collector.collect.mongodb;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 
 import com.mongodb.MongoServerUnavailableException;
 import com.mongodb.MongoTimeoutException;
+import com.mongodb.client.ClientSession;
 import org.dromara.hertzbeat.collector.collect.common.cache.CacheIdentifier;
-import org.dromara.hertzbeat.collector.collect.common.cache.CommonCache;
+import org.dromara.hertzbeat.collector.collect.common.cache.ConnectionCommonCache;
 import org.dromara.hertzbeat.collector.collect.common.cache.MongodbConnect;
 import org.dromara.hertzbeat.common.util.CommonUtil;
 import org.dromara.hertzbeat.collector.dispatch.DispatchConstants;
@@ -44,23 +45,21 @@ import org.dromara.hertzbeat.collector.collect.AbstractCollect;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Mongodb 单机指标收集器
+ * Mongodb single collect
  *
  * @author <a href="mailto:liudonghua123@gmail.com">liudonghua</a>
- * @version 1.0
- *          Created by liudonghua on 2023/01/01
- *          see also https://www.mongodb.com/languages/java,
- *          https://www.mongodb.com/docs/manual/reference/command/serverStatus/#metrics
+ * see also https://www.mongodb.com/languages/java,
+ * https://www.mongodb.com/docs/manual/reference/command/serverStatus/#metrics
  */
 @Slf4j
 public class MongodbSingleCollectImpl extends AbstractCollect {
 
     /**
      * 支持的 mongodb diagnostic 命令，排除internal/deprecated相关的命令
-     * 可参考 https://www.mongodb.com/docs/manual/reference/command/nav-diagnostic/,
-     * https://www.mongodb.com/docs/mongodb-shell/run-commands/
+     * 可参考 <a href="https://www.mongodb.com/docs/manual/reference/command/nav-diagnostic/">...</a>,
+     * <a href="https://www.mongodb.com/docs/mongodb-shell/run-commands/">...</a>
      * 注意：一些命令需要相应的权限才能执行，否则执行虽然不会报错，但是返回的结果是空的，
-     * 详见 https://www.mongodb.com/docs/manual/reference/built-in-roles/
+     * 详见 <a href="https://www.mongodb.com/docs/manual/reference/built-in-roles/">...</a>
      */
     private static final String[] SUPPORTED_MONGODB_DIAGNOSTIC_COMMANDS = {
             "buildInfo",
@@ -82,7 +81,7 @@ public class MongodbSingleCollectImpl extends AbstractCollect {
     };
 
     @Override
-    public void collect(CollectRep.MetricsData.Builder builder, long appId, String app, Metrics metrics) {
+    public void collect(CollectRep.MetricsData.Builder builder, long monitorId, String app, Metrics metrics) {
         try {
             preCheck(metrics);
         } catch (Exception e) {
@@ -101,18 +100,23 @@ public class MongodbSingleCollectImpl extends AbstractCollect {
             builder.setMsg("unsupported mongodb diagnostic command: " + command);
             return;
         }
+        ClientSession clientSession = null;
         try {
             MongoClient mongoClient = getClient(metrics);
             MongoDatabase mongoDatabase = mongoClient.getDatabase(metrics.getMongodb().getDatabase());
+            clientSession = mongoClient.startSession();
             CollectRep.ValueRow.Builder valueRowBuilder = CollectRep.ValueRow.newBuilder();
             Document document;
             if (metricsParts.length == 1) {
-                document = mongoDatabase.runCommand(new Document(command, 1));
+                document = mongoDatabase.runCommand(clientSession, new Document(command, 1));
             } else {
-                document = mongoDatabase.runCommand(new Document(command, 1));
+                document = mongoDatabase.runCommand(clientSession, new Document(command, 1));
                 for (int i = 1; i < metricsParts.length; i++) {
                     document = (Document) document.get(metricsParts[i]);
                 }
+            }
+            if (document == null) {
+                throw new RuntimeException("the document get from command " + metrics.getMongodb().getCommand()  + " is null.");
             }
             fillBuilder(metrics, valueRowBuilder, document);
             builder.addValues(valueRowBuilder.build());
@@ -125,6 +129,12 @@ public class MongodbSingleCollectImpl extends AbstractCollect {
             String message = CommonUtil.getMessageFromThrowable(e);
             builder.setMsg(message);
             log.warn(message, e);
+        } finally {
+            if (clientSession != null) {
+                try {
+                    clientSession.close();
+                } catch (Exception ignored) {}
+            }
         }
     }
 
@@ -139,7 +149,7 @@ public class MongodbSingleCollectImpl extends AbstractCollect {
     private void fillBuilder(Metrics metrics, CollectRep.ValueRow.Builder valueRowBuilder, Document document) {
         metrics.getAliasFields().forEach(it -> {
             if (document.containsKey(it)) {
-                Object fieldValue =document.get(it);
+                Object fieldValue = document.get(it);
                 if (fieldValue == null) {
                     valueRowBuilder.addColumns(CommonConstants.NULL_VALUE);
                 } else {
@@ -167,7 +177,9 @@ public class MongodbSingleCollectImpl extends AbstractCollect {
     }
 
     /**
-     * 通过metrics中的mongodb连接信息获取 mongodb client
+     * 通过metrics中的mongodb连接信息获取 
+     * mongodb client本身不存在网络调用，和网络链接。对每次采集，我们需要新建session并使用后关闭它
+     * mongodb client is thread pool, we need to create the session for each collect
      */
     private MongoClient getClient(Metrics metrics) {
         MongodbProtocol mongodbProtocol = metrics.getMongodb();
@@ -175,41 +187,23 @@ public class MongodbSingleCollectImpl extends AbstractCollect {
         CacheIdentifier identifier = CacheIdentifier.builder()
                 .ip(mongodbProtocol.getHost()).port(mongodbProtocol.getPort())
                 .username(mongodbProtocol.getUsername()).password(mongodbProtocol.getPassword()).build();
-        Optional<Object> cacheOption = CommonCache.getInstance().getCache(identifier, true);
+        Optional<Object> cacheOption = ConnectionCommonCache.getInstance().getCache(identifier, true);
         MongoClient mongoClient = null;
         if (cacheOption.isPresent()) {
             MongodbConnect mongodbConnect = (MongodbConnect) cacheOption.get();
             mongoClient = mongodbConnect.getMongoClient();
-            try {
-                // detect this connection is available?
-                mongoClient.getClusterDescription();
-            } catch (Exception e) {
-                log.info("The mongodb connect client from cache is invalid: {}", e.getMessage());
-                try {
-                    mongoClient.close();
-                } catch (Exception e2) {
-                    log.error(e2.getMessage());
-                }
-                mongoClient = null;
-                CommonCache.getInstance().removeCache(identifier);
-            }
         }
         if (mongoClient != null) {
             return mongoClient;
         }
         // 复用失败则新建连接 connect to mongodb
-        String url;
-        try {
-            // 密码可能包含特殊字符，需要使用类似js的encodeURIComponent进行编码，这里使用java的URLEncoder
-            url = String.format("mongodb://%s:%s@%s:%s/%s?authSource=%s", mongodbProtocol.getUsername(),
-                    URLEncoder.encode(mongodbProtocol.getPassword(), "UTF-8"), mongodbProtocol.getHost(), mongodbProtocol.getPort(),
-                    mongodbProtocol.getDatabase(), mongodbProtocol.getAuthenticationDatabase());
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        // 密码可能包含特殊字符，需要使用类似js的encodeURIComponent进行编码，这里使用java的URLEncoder
+        String url = String.format("mongodb://%s:%s@%s:%s/%s?authSource=%s", mongodbProtocol.getUsername(),
+                URLEncoder.encode(mongodbProtocol.getPassword(), StandardCharsets.UTF_8), mongodbProtocol.getHost(), mongodbProtocol.getPort(),
+                mongodbProtocol.getDatabase(), mongodbProtocol.getAuthenticationDatabase());
         mongoClient = MongoClients.create(url);
         MongodbConnect mongodbConnect = new MongodbConnect(mongoClient);
-        CommonCache.getInstance().addCache(identifier, mongodbConnect);
+        ConnectionCommonCache.getInstance().addCache(identifier, mongodbConnect, 3600 * 1000L);
         return mongoClient;
     }
 }

@@ -38,7 +38,9 @@ import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.Collections;
 
 /**
  * @author <a href="mailto:gcwm99@gmail.com">gcdd1993</a>
@@ -61,12 +63,12 @@ abstract class AbstractImExportServiceImpl implements ImExportService {
                 .map(this::convert)
                 .collect(Collectors.toUnmodifiableList());
         if (!CollectionUtils.isEmpty(formList)) {
-            formList.forEach(it -> {
-                monitorService.validate(it, false);
-                if (it.isDetected()) {
-                    monitorService.detectMonitor(it.getMonitor(), it.getParams());
+            formList.forEach(monitorDto -> {
+                monitorService.validate(monitorDto, false);
+                if (monitorDto.isDetected()) {
+                    monitorService.detectMonitor(monitorDto.getMonitor(), monitorDto.getParams(), monitorDto.getCollector());
                 }
-                monitorService.addMonitor(it.getMonitor(), it.getParams());
+                monitorService.addMonitor(monitorDto.getMonitor(), monitorDto.getParams(), monitorDto.getCollector());
             });
         }
     }
@@ -75,6 +77,7 @@ abstract class AbstractImExportServiceImpl implements ImExportService {
     public void exportConfig(OutputStream os, List<Long> configList) {
         var monitorList = configList.stream()
                 .map(it -> monitorService.getMonitorDto(it))
+                .filter(Objects::nonNull)
                 .map(this::convert)
                 .collect(Collectors.toUnmodifiableList());
         writeOs(monitorList, os);
@@ -116,28 +119,46 @@ abstract class AbstractImExportServiceImpl implements ImExportService {
                 .collect(Collectors.toUnmodifiableList()));
         exportMonitor.setMetrics(dto.getMetrics());
         exportMonitor.setDetected(false);
+        exportMonitor.getMonitor().setCollector(dto.getCollector());
         return exportMonitor;
     }
 
     private MonitorDto convert(ExportMonitorDTO exportMonitor) {
+        if (exportMonitor == null || exportMonitor.monitor == null) {
+            throw new IllegalArgumentException("exportMonitor and exportMonitor.monitor must not be null");
+        }
+
         var monitorDto = new MonitorDto();
         monitorDto.setDetected(exportMonitor.getDetected());
         var monitor = new Monitor();
         log.debug("exportMonitor.monitor{}", exportMonitor.monitor);
-        BeanUtils.copyProperties(exportMonitor.monitor, monitor);
-        monitor.setTags(tagService.listTag(new HashSet<>(exportMonitor.monitor.tags))
-                .stream().
-                filter(tag -> !(tag.getName().equals(CommonConstants.TAG_MONITOR_ID) || tag.getName().equals(CommonConstants.TAG_MONITOR_NAME)))
-                .collect(Collectors.toList()));
+        if (exportMonitor.monitor != null) { //多增加一个null检测
+            BeanUtils.copyProperties(exportMonitor.monitor, monitor);
+            if (exportMonitor.monitor.tags != null) {
+                monitor.setTags(tagService.listTag(new HashSet<>(exportMonitor.monitor.tags))
+                        .stream()
+                        .filter(tag -> !(tag.getName().equals(CommonConstants.TAG_MONITOR_ID) || tag.getName().equals(CommonConstants.TAG_MONITOR_NAME)))
+                        .collect(Collectors.toList()));
+            } else {
+                monitor.setTags(Collections.emptyList());
+            }
+        }
         monitorDto.setMonitor(monitor);
+        if (exportMonitor.getMonitor() != null) {
+            monitorDto.setCollector(exportMonitor.getMonitor().getCollector());
+        }
         monitorDto.setMetrics(exportMonitor.metrics);
-        monitorDto.setParams(exportMonitor.params.stream()
-                .map(it -> {
-                    var param = new Param();
-                    BeanUtils.copyProperties(it, param);
-                    return param;
-                })
-                .collect(Collectors.toUnmodifiableList()));
+        if (exportMonitor.params != null) {
+            monitorDto.setParams(exportMonitor.params.stream()
+                    .map(it -> {
+                        var param = new Param();
+                        BeanUtils.copyProperties(it, param);
+                        return param;
+                    })
+                    .collect(Collectors.toUnmodifiableList()));
+        } else {
+            monitorDto.setParams(Collections.emptyList());
+        }
         return monitorDto;
     }
 
@@ -181,6 +202,8 @@ abstract class AbstractImExportServiceImpl implements ImExportService {
         private String description;
         @Excel(name = "Tags")
         private List<Long> tags;
+        @Excel(name = "Collector")
+        private String collector;
     }
 
 

@@ -807,7 +807,9 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/55838224?v=4",
       "profile": "https://github.com/vinci-897",
       "contributions": [
-        "code"
+        "code",
+        "doc",
+        "design"
       ]
     },
     {
@@ -1240,7 +1242,9 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/104416402?v=4",
       "profile": "https://github.com/YutingNie",
       "contributions": [
-        "code"
+        "code",
+        "doc",
+        "design"
       ]
     },
     {
@@ -1249,7 +1253,9 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/23418428?v=4",
       "profile": "https://github.com/mikezzb",
       "contributions": [
-        "code"
+        "code",
+        "doc",
+        "design"
       ]
     },
     {
@@ -1257,6 +1263,292 @@
       "name": "小笨蛋",
       "avatar_url": "https://avatars.githubusercontent.com/u/105542329?v=4",
       "profile": "https://github.com/a-little-fool",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "littlezhongzer",
+      "name": "littlezhongzer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33685289?v=4",
+      "profile": "https://github.com/littlezhongzer",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ChenXiangxxxxx",
+      "name": "ChenXiangxxxxx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/90089594?v=4",
+      "profile": "https://github.com/ChenXiangxxxxx",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Mr-zhou315",
+      "name": "Mr.zhou",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10276100?v=4",
+      "profile": "https://github.com/Mr-zhou315",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "XimfengYao",
+      "name": "姚贤丰",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17541537?v=4",
+      "profile": "https://github.com/XimfengYao",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "LINGLUOJUN",
+      "name": "lingluojun",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16778977?v=4",
+      "profile": "https://github.com/LINGLUOJUN",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "luelueking",
+      "name": "1ue",
+      "avatar_url": "https://avatars.githubusercontent.com/u/93204032?v=4",
+      "profile": "http://www.luelueking.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "qyaaaa",
+      "name": "qyaaaa",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67301054?v=4",
+      "profile": "http://www.jimmyqiao.top",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "novohit",
+      "name": "novohit",
+      "avatar_url": "https://avatars.githubusercontent.com/u/101090395?v=4",
+      "profile": "https://novohit.top",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "rbsrcy",
+      "name": "zhuoshangyi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4798540?v=4",
+      "profile": "https://github.com/rbsrcy",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ruanliang-hualun",
+      "name": "ruanliang",
+      "avatar_url": "https://avatars.githubusercontent.com/u/65543716?v=4",
+      "profile": "https://github.com/ruanliang-hualun",
+      "contributions": [
+        "doc",
+        "code"
+      ]
+    },
+    {
+      "login": "Eden4701",
+      "name": "Eden4701",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68422437?v=4",
+      "profile": "https://github.com/Eden4701",
+      "contributions": [
+        "code",
+        "doc",
+        "design"
+      ]
+    },
+    {
+      "login": "XiaTian688",
+      "name": "XiaTian688",
+      "avatar_url": "https://avatars.githubusercontent.com/u/111830921?v=4",
+      "profile": "https://github.com/XiaTian688",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "liyin",
+      "name": "liyinjiang",
+      "avatar_url": "https://avatars.githubusercontent.com/u/863169?v=4",
+      "profile": "https://github.com/liyin",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jiashu1024",
+      "name": "ZhangJiashu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67859663?v=4",
+      "profile": "https://github.com/jiashu1024",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "1036664317",
+      "name": "moghn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7696697?v=4",
+      "profile": "https://github.com/1036664317",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "xiaoguolong",
+      "name": "xiaoguolong",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33684988?v=4",
+      "profile": "https://github.com/xiaoguolong",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Clownsw",
+      "name": "Smliexx",
+      "avatar_url": "https://avatars.githubusercontent.com/u/28394742?v=4",
+      "profile": "https://github.com/Clownsw",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Calvin979",
+      "name": "Naruse",
+      "avatar_url": "https://avatars.githubusercontent.com/u/131688897?v=4",
+      "profile": "https://github.com/Calvin979",
+      "contributions": [
+        "doc",
+        "code"
+      ]
+    },
+    {
+      "login": "bbelide2",
+      "name": "Bala Sukesh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26840796?v=4",
+      "profile": "https://github.com/bbelide2",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jinyaoMa",
+      "name": "Jinyao Ma",
+      "avatar_url": "https://avatars.githubusercontent.com/u/25066570?v=4",
+      "profile": "https://github.com/jinyaoMa",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "LinuxSuRen",
+      "name": "Rick",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1450685?v=4",
+      "profile": "https://linuxsuren.github.io/open-source-best-practice/",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "ZY945",
+      "name": "东风",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74083801?v=4",
+      "profile": "https://github.com/ZY945",
+      "contributions": [
+        "code",
+        "design",
+        "doc"
+      ]
+    },
+    {
+      "login": "prolevel1",
+      "name": "sonam singh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51995525?v=4",
+      "profile": "https://github.com/prolevel1",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ZhangZixuan1994",
+      "name": "ZhangZixuan1994",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20011653?v=4",
+      "profile": "https://github.com/ZhangZixuan1994",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "hurenjie1",
+      "name": "SHIG",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40120355?v=4",
+      "profile": "https://github.com/hurenjie1",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "tslj1024",
+      "name": "泰上老菌",
+      "avatar_url": "https://avatars.githubusercontent.com/u/155222677?v=4",
+      "profile": "https://tslj1024.github.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ldysdu",
+      "name": "ldysdu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/15815338?v=4",
+      "profile": "https://github.com/ldysdu",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "GEM0816g",
+      "name": "梁同学",
+      "avatar_url": "https://avatars.githubusercontent.com/u/85116017?v=4",
+      "profile": "https://github.com/GEM0816g",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "avvCode",
+      "name": "avv",
+      "avatar_url": "https://avatars.githubusercontent.com/u/113538532?v=4",
+      "profile": "https://github.com/avvCode",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "yqxxgh",
+      "name": "yqxxgh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/42080876?v=4",
+      "profile": "https://github.com/yqxxgh",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "CharlieShi46",
+      "name": "CharlieShi46",
+      "avatar_url": "https://avatars.githubusercontent.com/u/149798885?v=4",
+      "profile": "https://github.com/CharlieShi46",
       "contributions": [
         "code"
       ]

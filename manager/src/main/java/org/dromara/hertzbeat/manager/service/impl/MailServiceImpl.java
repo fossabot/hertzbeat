@@ -17,19 +17,29 @@
 
 package org.dromara.hertzbeat.manager.service.impl;
 
+import freemarker.cache.StringTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
 import org.dromara.hertzbeat.alert.AlerterProperties;
 import org.dromara.hertzbeat.common.entity.alerter.Alert;
 import org.dromara.hertzbeat.common.constants.CommonConstants;
+import org.dromara.hertzbeat.common.entity.manager.NoticeTemplate;
+import org.dromara.hertzbeat.common.support.event.SystemConfigChangeEvent;
 import org.dromara.hertzbeat.common.util.ResourceBundleUtil;
 import org.dromara.hertzbeat.manager.service.MailService;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.hertzbeat.manager.service.NoticeConfigService;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -38,50 +48,75 @@ import java.util.ResourceBundle;
  *
  * @author 花城
  * @version 1.0
- *
  */
 @Slf4j
 @Service
 public class MailServiceImpl implements MailService {
 
     @Resource
-    private TemplateEngine templateEngine;
-
-    @Resource
     private AlerterProperties alerterProperties;
 
+    @Resource
+    protected NoticeConfigService noticeConfigService;
+
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("alerter");
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public String buildAlertHtmlTemplate(final Alert alert) {
+    public String buildAlertHtmlTemplate(final Alert alert, NoticeTemplate noticeTemplate) throws IOException, TemplateException {
+        freemarker.template.Template templateMail = null;
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
         String monitorId = null;
         String monitorName = null;
+        String monitorHost = null;
         if (alert.getTags() != null) {
             monitorId = alert.getTags().get(CommonConstants.TAG_MONITOR_ID);
             monitorName = alert.getTags().get(CommonConstants.TAG_MONITOR_NAME);
+            monitorHost = alert.getTags().get(CommonConstants.TAG_MONITOR_HOST);
         }
-        monitorId = monitorId == null? "External Alarm, No ID" : monitorId;
-        monitorName = monitorName == null? "External Alarm, No Name" : monitorName;
-        // Introduce thymeleaf context parameters to render pages
-        // 引入thymeleaf上下文参数渲染页面
-        Context context = new Context();
-        context.setVariable("nameTitle", bundle.getString("alerter.notify.title"));
-        context.setVariable("nameTarget", bundle.getString("alerter.notify.target"));
-        context.setVariable("nameMonitorId", bundle.getString("alerter.notify.monitorId"));
-        context.setVariable("nameMonitorName", bundle.getString("alerter.notify.monitorName"));
-        context.setVariable("namePriority", bundle.getString("alerter.notify.priority"));
-        context.setVariable("nameTriggerTime", bundle.getString("alerter.notify.triggerTime"));
-        context.setVariable("nameContent", bundle.getString("alerter.notify.content"));
-        context.setVariable("nameConsole", bundle.getString("alerter.notify.console"));
-        context.setVariable("target", alert.getTarget());
-        context.setVariable("monitorId", monitorId);
-        context.setVariable("monitorName", monitorName);
-        context.setVariable("priority", bundle.getString("alerter.priority." + alert.getPriority()));
-        context.setVariable("content", alert.getContent());
-        context.setVariable("consoleUrl", alerterProperties.getConsoleUrl());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String alarmTime = simpleDateFormat.format(new Date(alert.getLastAlarmTime()));
-        context.setVariable("lastTriggerTime", alarmTime);
-        return templateEngine.process("mailAlarm", context);
+        monitorId = monitorId == null ? "External Alarm, No ID" : monitorId;
+        monitorName = monitorName == null ? "External Alarm, No Name" : monitorName;
+        monitorHost = monitorHost == null ? "External Alarm, No Host" : monitorHost;
+        // Introduce context parameters to render pages
+        Map<String, String> model = new HashMap<>(16);
+        model.put("nameTitle", bundle.getString("alerter.notify.title"));
+        model.put("nameMonitorId", bundle.getString("alerter.notify.monitorId"));
+        model.put("nameMonitorName", bundle.getString("alerter.notify.monitorName"));
+        model.put("nameMonitorHost", bundle.getString("alerter.notify.monitorHost"));
+        model.put("target", alert.getTarget());
+        model.put("monitorId", monitorId);
+        model.put("monitorName", monitorName);
+        model.put("monitorHost", monitorHost);
+        model.put("nameTarget", bundle.getString("alerter.notify.target"));
+        model.put("nameConsole", bundle.getString("alerter.notify.console"));
+        model.put("namePriority", bundle.getString("alerter.notify.priority"));
+        model.put("priority", bundle.getString("alerter.priority." + alert.getPriority()));
+        model.put("nameTriggerTime", bundle.getString("alerter.notify.triggerTime"));
+        model.put("lastTriggerTime", simpleDateFormat.format(new Date(alert.getLastAlarmTime())));
+        if (CommonConstants.ALERT_STATUS_CODE_RESTORED == alert.getStatus()) {
+            model.put("nameRestoreTime", bundle.getString("alerter.notify.restoreTime"));
+            model.put("restoreTime", simpleDateFormat.format(new Date(alert.getFirstAlarmTime())));
+        }
+        model.put("consoleUrl", alerterProperties.getConsoleUrl());
+        model.put("nameContent", bundle.getString("alerter.notify.content"));
+        model.put("content", alert.getContent());
+        if (noticeTemplate == null) {
+            noticeTemplate = noticeConfigService.getDefaultNoticeTemplateByType((byte)1);
+        }
+        if (noticeTemplate == null) {
+            throw new NullPointerException("email does not have mapping default notice template");
+        }
+        StringTemplateLoader stringLoader = new StringTemplateLoader();
+        String templateName = "mailTemplate";
+        stringLoader.putTemplate(templateName, noticeTemplate.getContent());
+        cfg.setTemplateLoader(stringLoader);
+        templateMail = cfg.getTemplate(templateName, Locale.CHINESE);
+        return FreeMarkerTemplateUtils.processTemplateIntoString(templateMail, model);
+    }
+
+    @EventListener(SystemConfigChangeEvent.class)
+    public void onEvent(SystemConfigChangeEvent event) {
+        log.info("{} receive system config change event: {}.", this.getClass().getName(), event.getSource());
+        this.bundle = ResourceBundleUtil.getBundle("alerter");
     }
 }

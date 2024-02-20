@@ -5,13 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * mongodb connect client
- *
  * @author tom
- *
  */
 @Slf4j
 public class MongodbConnect implements CacheCloseable {
-    private MongoClient mongoClient;
+    private final MongoClient mongoClient;
 
     public MongodbConnect(MongoClient mongoClient) {
         this.mongoClient = mongoClient;
@@ -24,7 +22,7 @@ public class MongodbConnect implements CacheCloseable {
                 this.mongoClient.close();
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("[connection common cache] close mongodb connect error: {}", e.getMessage());
         }
     }
     public MongoClient getMongoClient() {

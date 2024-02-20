@@ -3,6 +3,7 @@ package org.dromara.hertzbeat.manager.component.alerter.impl;
 import org.dromara.hertzbeat.common.entity.alerter.Alert;
 import org.dromara.hertzbeat.common.entity.manager.NoticeReceiver;
 import org.dromara.hertzbeat.common.constants.CommonConstants;
+import org.dromara.hertzbeat.common.entity.manager.NoticeTemplate;
 import org.dromara.hertzbeat.manager.AbstractSpringIntegrationTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -36,18 +37,29 @@ class DiscordBotAlertNotifyHandlerImplTest extends AbstractSpringIntegrationTest
         receiver.setName("Mock 告警");
         receiver.setDiscordChannelId(discordChannelId);
         receiver.setDiscordBotToken(discordBotToken);
+        var noticeTemplate=new NoticeTemplate();
+        noticeTemplate.setId(1L);
+        noticeTemplate.setName("DiscordBot");
+        noticeTemplate.setContent("${targetLabel} : ${target}\n" +
+                "<#if (monitorId??)>${monitorIdLabel} : ${monitorId} </#if>\n" +
+                "<#if (monitorName??)>${monitorNameLabel} : ${monitorName} </#if>\n" +
+                "<#if (monitorHost??)>${monitorHostLabel} : ${monitorHost} </#if>\n" +
+                "${priorityLabel} : ${priority}\n" +
+                "${triggerTimeLabel} : ${triggerTime}\n" +
+                "${contentLabel} : ${content}");
         var alert = new Alert();
         alert.setId(1L);
         alert.setTarget("Mock Target");
         var map = Map.of(
                 CommonConstants.TAG_MONITOR_ID, "Mock monitor id",
-                CommonConstants.TAG_MONITOR_NAME, "Mock monitor name"
+                CommonConstants.TAG_MONITOR_NAME, "Mock monitor name",
+                CommonConstants.TAG_MONITOR_HOST, "Mock monitor host"
         );
         alert.setTags(map);
         alert.setContent("mock content");
         alert.setPriority((byte) 0);
         alert.setLastAlarmTime(System.currentTimeMillis());
 
-        discordBotAlertNotifyHandler.send(receiver, alert);
+        discordBotAlertNotifyHandler.send(receiver, noticeTemplate,alert);
     }
 }

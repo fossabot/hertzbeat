@@ -23,15 +23,25 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 /**
- * host注解数据自定义校验器
+ * Host Param Validator
  * @author tomsun28
  *
  */
 public class HostParamValidator implements ConstraintValidator<HostValid, String> {
+    public static final String HTTP = "http://";
+    public static final String HTTPS = "https://";
+    public static final String BLANK = "";
+    public static final String PATTERN_HTTP  = "(?i)http://";
+    public static final String PATTERN_HTTPS  = "(?i)https://";
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        // 判断value是否满足ipv4 ipv5 域名 格式
+        if(value != null && value.toLowerCase().contains(HTTP)){
+            value = value.replaceAll(PATTERN_HTTP, BLANK);
+        }
+        if(value != null && value.toLowerCase().contains(HTTPS)){
+            value = value.replace(PATTERN_HTTPS, BLANK);
+        }
         return IpDomainUtil.validateIpDomain(value);
     }
 }

@@ -24,32 +24,29 @@ import org.dromara.hertzbeat.common.constants.CollectorConstants;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.regex.Pattern;
 
 /**
- * ipv4 ipv6 domain 工具类
+ * ipv4 ipv6 domain util
  * @author tomsun28
- *
  */
 @Slf4j
 public class IpDomainUtil {
-
-    /**
-     * 域名校验正则
-     */
+    
     private static final Pattern DOMAIN_PATTERN =
-            Pattern.compile("^(?=^.{3,255}$)[_a-zA-Z0-9][-_a-zA-Z0-9]{0,62}(\\.[a-zA-Z0-9][-_a-zA-Z0-9]{0,62})+$");
+            Pattern.compile("^[-\\w]+(\\.[-\\w]+)*$");
 
     private static final String LOCALHOST = "localhost";
 
     /**
-     * HTTP协议头校验规则
+     * HTTP header schema
      */
     private static final Pattern DOMAIN_SCHEMA = Pattern.compile("^([hH][tT]{2}[pP]://|[hH][tT]{2}[pP][sS]://){1}[^\\s]*");
 
     /**
-     * 校验判断是否是 ip或者domain
+     * whether it is ip or domain
      * @param ipDomain ip domain string
      * @return true-yes false-no
      */
@@ -71,9 +68,9 @@ public class IpDomainUtil {
     }
 
     /**
-     * 判断 domain or ip 是否存在http / https 头
+     * if domain or ip has http / https schema
      * @param domainIp host
-     * @return 存在true
+     * @return true or false
      */
     public static boolean isHasSchema(String domainIp) {
         if (domainIp == null || "".equals(domainIp)) {
@@ -110,7 +107,7 @@ public class IpDomainUtil {
 
     /**
      *
-     * @param ipDomain
+     * @param ipDomain ip domain
      * @return IP address type
      */
     public static String checkIpAddressType(String ipDomain){
@@ -118,6 +115,19 @@ public class IpDomainUtil {
             return CollectorConstants.IPV6;
         }
         return CollectorConstants.IPV4;
+    }
+    
+    /**
+     * get current local host name
+     * @return hostname
+     */
+    public static String getCurrentHostName() {
+        try {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            return inetAddress.getHostName();   
+        } catch (UnknownHostException e) {
+            return null;
+        }
     }
 
 }

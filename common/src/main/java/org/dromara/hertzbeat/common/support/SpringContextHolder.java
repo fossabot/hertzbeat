@@ -20,21 +20,26 @@ package org.dromara.hertzbeat.common.support;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 /**
- * Spring的ApplicationContext的持有者,可以用静态方法的方式获取spring容器中的bean
+ * Spring ApplicationContext Holder
  * @author tomsun28
- *
  */
 @Component
 public class SpringContextHolder implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
+    
+    private static ConfigurableApplicationContext configurableApplicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         set(applicationContext);
+        if (applicationContext instanceof ConfigurableApplicationContext) {
+            configurableApplicationContext = (ConfigurableApplicationContext) applicationContext;
+        }
     }
 
     private static void set(ApplicationContext applicationContext) {
@@ -56,10 +61,22 @@ public class SpringContextHolder implements ApplicationContextAware {
         assertApplicationContext();
         return (T) applicationContext.getBean(tClass);
     }
+    
+    public static void shutdown() {
+        assertApplicationContext();
+        configurableApplicationContext.close();
+    }
+    
+    public static boolean isActive() {
+        if (configurableApplicationContext == null) {
+            return false;
+        }
+        return configurableApplicationContext.isActive();
+    }
 
     private static void assertApplicationContext() {
-        if (null == SpringContextHolder.applicationContext) {
-            throw new RuntimeException("applicationContext为空,请检查是否注入springContextHolder");
+        if (null == applicationContext || null == configurableApplicationContext) {
+            throw new RuntimeException("applicationContext is null, please inject the springContextHolder");
         }
     }
 }

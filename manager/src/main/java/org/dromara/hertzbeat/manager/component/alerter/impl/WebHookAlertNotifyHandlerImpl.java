@@ -17,32 +17,41 @@
 
 package org.dromara.hertzbeat.manager.component.alerter.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.dromara.hertzbeat.common.entity.alerter.Alert;
 import org.dromara.hertzbeat.common.entity.manager.NoticeReceiver;
-import org.dromara.hertzbeat.manager.component.alerter.AlertNotifyHandler;
+import org.dromara.hertzbeat.common.entity.manager.NoticeTemplate;
 import org.dromara.hertzbeat.manager.support.exception.AlertNoticeException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:Musk.Chen@fanruan.com">Musk.Chen</a>
- *
  */
 @Component
-@RequiredArgsConstructor
 @Slf4j
-final class WebHookAlertNotifyHandlerImpl implements AlertNotifyHandler {
-    private final RestTemplate restTemplate;
+final class WebHookAlertNotifyHandlerImpl extends AbstractAlertNotifyHandlerImpl {
 
     @Override
-    public void send(NoticeReceiver receiver, Alert alert) {
+    public void send(NoticeReceiver receiver, NoticeTemplate noticeTemplate, Alert alert) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Alert> alertHttpEntity = new HttpEntity<>(alert, headers);
+
+            // fix null pointer exception
+            filterInvalidTags(alert);
+            String webhookJson = renderContent(noticeTemplate, alert);
+            webhookJson = webhookJson.replace(",\n  }", "\n }");
+
+            HttpEntity<String> alertHttpEntity = new HttpEntity<>(webhookJson, headers);
             ResponseEntity<String> entity = restTemplate.postForEntity(receiver.getHookUrl(), alertHttpEntity, String.class);
             if (entity.getStatusCode().value() < HttpStatus.BAD_REQUEST.value()) {
                 log.debug("Send WebHook: {} Success", receiver.getHookUrl());
@@ -58,5 +67,26 @@ final class WebHookAlertNotifyHandlerImpl implements AlertNotifyHandler {
     @Override
     public byte type() {
         return 2;
+    }
+
+    private void filterInvalidTags(Alert alert) {
+        if (alert.getTags() == null) {
+            return;
+        }
+
+        Iterator<Map.Entry<String, String>> iterator = alert.getTags().entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> entry = iterator.next();
+            if (StringUtils.isNoneBlank(entry.getKey(), entry.getValue())) {
+                continue;
+            }
+
+            iterator.remove();
+        }
+
+        // In order to beautify Freemarker template
+        if (alert.getTags().entrySet().size() <= 0L) {
+            alert.setTags(null);
+        }
     }
 }

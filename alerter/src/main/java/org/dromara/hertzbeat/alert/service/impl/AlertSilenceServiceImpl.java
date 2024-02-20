@@ -14,12 +14,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Set;
 
 /**
  * management interface service implement for alert silence
  * @author tom
- *
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -31,7 +31,11 @@ public class AlertSilenceServiceImpl implements AlertSilenceService {
 
 	@Override
 	public void validate(AlertSilence alertSilence, boolean isModify) throws IllegalArgumentException {
-		// todo 
+		// todo
+		// 兜底策略, 如果周期性情况下设置的告警静默选择日期为空, 视为全部勾选
+		if (alertSilence.getType() == 1 && alertSilence.getDays() == null) {
+			alertSilence.setDays(Arrays.asList((byte)7, (byte)1, (byte)2, (byte)3, (byte)4, (byte)5, (byte)6));
+		}
 	}
 
 	@Override

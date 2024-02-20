@@ -25,7 +25,6 @@ import lombok.NoArgsConstructor;
 /**
  * 公共的jdbc规范实现的数据库配置信息
  * @author tomsun28
- *
  */
 @Data
 @Builder
@@ -61,7 +60,7 @@ public class JdbcProtocol {
      */
     private String platform;
     /**
-     * SQL查询方式： oneRow, multiRow, columns
+     * SQL查询方式： oneRow, multiRow, columns, runScript
      */
     private String queryType;
     /**

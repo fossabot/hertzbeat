@@ -36,7 +36,7 @@ DEPLOY_DIR=`pwd`
 # 如果指定的是目录,spring则会读取目录中的所有配置文件
 CONF_DIR=$DEPLOY_DIR/config
 # 应用的端口号
-SERVER_PORT=1158
+SERVER_PORT=1159
 
 PIDS=`ps -ef | grep java | grep "$CONF_DIR" | awk '{print $2}'`
 if [ "$1" = "status" ]; then
@@ -82,7 +82,7 @@ if [ ! -d $LOGS_DIR ]; then
 fi
 
 # JVM Configuration
-JAVA_OPTS=" -Duser.timezone=Asia/Shanghai"
+JAVA_OPTS=" -Duser.timezone=Asia/Shanghai -Doracle.jdbc.timezoneAsRegion=false"
 
 JAVA_MEM_OPTS=" -server -XX:SurvivorRatio=6 -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR"
 
@@ -96,7 +96,19 @@ fi
 CONFIG_FILES=" -Dlogging.path=$LOGS_DIR $LOGGING_CONFIG -Dspring.config.location=$CONF_DIR/ "
 echo -e "You can review logs at hertzbeat/logs"
 echo -e "Starting the HertzBeat $SERVER_NAME ..."
-nohup java $JAVA_OPTS $JAVA_MEM_OPTS $CONFIG_FILES -jar $DEPLOY_DIR/$JAR_NAME >logs/startup.log 2>&1 &
+
+if [ -f "./java/bin/java" ]; then
+    echo -e "Use the inner package jdk to start"
+    nohup ./java/bin/java $JAVA_OPTS $JAVA_MEM_OPTS $CONFIG_FILES -jar $DEPLOY_DIR/$JAR_NAME >logs/startup.log 2>&1 &
+else
+    JAVA_EXIST=`which java | grep bin | wc -l`
+    if [ $JAVA_EXIST -le 0 ]; then
+      echo -e "ERROR: there is no java11+ environment, please config java environment."
+      exit 1
+    fi
+    echo -e "Use the system environment jdk to start"
+    nohup java $JAVA_OPTS $JAVA_MEM_OPTS $CONFIG_FILES -jar $DEPLOY_DIR/$JAR_NAME >logs/startup.log 2>&1 & 
+fi
 
 COUNT=0
 while [ $COUNT -lt 1 ]; do

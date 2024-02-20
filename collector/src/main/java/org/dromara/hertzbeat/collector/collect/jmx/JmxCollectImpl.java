@@ -2,7 +2,7 @@ package org.dromara.hertzbeat.collector.collect.jmx;
 
 import org.dromara.hertzbeat.collector.collect.AbstractCollect;
 import org.dromara.hertzbeat.collector.collect.common.cache.CacheIdentifier;
-import org.dromara.hertzbeat.collector.collect.common.cache.CommonCache;
+import org.dromara.hertzbeat.collector.collect.common.cache.ConnectionCommonCache;
 import org.dromara.hertzbeat.collector.collect.common.cache.JmxConnect;
 import org.dromara.hertzbeat.collector.dispatch.DispatchConstants;
 import org.dromara.hertzbeat.common.entity.job.Metrics;
@@ -26,11 +26,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * jmx 协议采集实现 - jmx
  * jmx protocol acquisition implementation
- *
  * @author huacheng
- *
  */
 @Slf4j
 public class JmxCollectImpl extends AbstractCollect {
@@ -45,7 +42,7 @@ public class JmxCollectImpl extends AbstractCollect {
     }
 
     @Override
-    public void collect(CollectRep.MetricsData.Builder builder, long appId, String app, Metrics metrics) {
+    public void collect(CollectRep.MetricsData.Builder builder, long monitorId, String app, Metrics metrics) {
 
         try {
             JmxProtocol jmxProtocol = metrics.getJmx();
@@ -145,7 +142,7 @@ public class JmxCollectImpl extends AbstractCollect {
         CacheIdentifier identifier = CacheIdentifier.builder().ip(jmxProtocol.getHost())
                 .port(jmxProtocol.getPort()).username(jmxProtocol.getUsername())
                 .password(jmxProtocol.getPassword()).build();
-        Optional<Object> cacheOption = CommonCache.getInstance().getCache(identifier, true);
+        Optional<Object> cacheOption = ConnectionCommonCache.getInstance().getCache(identifier, true);
         JMXConnector conn = null;
         if (cacheOption.isPresent()) {
             JmxConnect jmxConnect = (JmxConnect) cacheOption.get();
@@ -154,7 +151,7 @@ public class JmxCollectImpl extends AbstractCollect {
                 conn.getMBeanServerConnection();
             } catch (Exception e) {
                 conn = null;
-                CommonCache.getInstance().removeCache(identifier);
+                ConnectionCommonCache.getInstance().removeCache(identifier);
             }
         }
         if (conn != null) {
@@ -179,7 +176,7 @@ public class JmxCollectImpl extends AbstractCollect {
         }
         JMXServiceURL jmxServiceUrl = new JMXServiceURL(url);
         conn = JMXConnectorFactory.connect(jmxServiceUrl, environment);
-        CommonCache.getInstance().addCache(identifier, new JmxConnect(conn));
+        ConnectionCommonCache.getInstance().addCache(identifier, new JmxConnect(conn));
         return conn;
     }
 

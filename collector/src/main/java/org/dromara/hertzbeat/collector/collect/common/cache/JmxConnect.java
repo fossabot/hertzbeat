@@ -5,15 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import javax.management.remote.JMXConnector;
 
 /**
- * jmx链接销毁管理
- *
+ * jmx connect object
  * @author huacheng
- *
  **/
 @Slf4j
 public class JmxConnect implements CacheCloseable {
 
-    private JMXConnector connection;
+    private final JMXConnector connection;
 
     public JmxConnect(JMXConnector connection) {
         this.connection = connection;
@@ -27,7 +25,7 @@ public class JmxConnect implements CacheCloseable {
                 connection.close();
             }
         } catch (Exception e) {
-            log.error("close redis connect error: {}", e.getMessage());
+            log.error("[connection common cache] close jmx connect error: {}", e.getMessage());
         }
     }
 

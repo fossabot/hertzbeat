@@ -17,12 +17,21 @@ category: mid
 app: shenyu
 name:
   zh-CN: ShenYu网关
-  en-US: ShenYu Gateway
+  en-US: Apache ShenYu
+# The description and help of this monitoring type
+# 监控类型的帮助描述信息
+help:
+  zh-CN: Hertzbeat 通过调用 <a href="https://shenyu.apache.org/zh/docs/plugin-center/observability/metrics-plugin">ShenYu Metrics 插件</a> 对 ShenYu 网关的通用指标 (请求量、执行时间、JVM、内存占用、线程信息等) 进行采集监控。<br>注意⚠️：需要您提前 <a href="https://shenyu.apache.org/zh/docs/plugin-center/observability/metrics-plugin">开启暴露 ShenYu Metrics 插件暴露其数据接口</a>。您可以点击 “<i>新建 ShenYu</i>” 并进行配置，或者选择“<i>更多操作</i>”，导入已有配置。
+  en-US: Hertzbeat monitors metrics of the ShenYu Gateway by calling the <a href="https://shenyu.apache.org/docs/plugin-center/observability/metrics-plugin">ShenYu Metrics Api</a>. <br>Note⚠️:You need to <a href="https://shenyu.apache.org/docs/plugin-center/observability/metrics-plugin">enable ShenYu Metrics Plugin</a> in advance. You can click "<i>New ShenYu</i>" and configure it, or select "<i>More Action</i>" to import the existing configuration.
+  zh-TW: Hertzbeat 通過調用 <a href="https://shenyu.apache.org/zh/docs/plugin-center/observability/metrics-plugin">ShenYu Metrics 插件</a> 對 ShenYu 網關的通用指標 (請求量、執行時間、JVM、內存占用、線程信息等) 進行采集監控。<br>注意⚠️：需要您提前 <a href="https://shenyu.apache.org/zh/docs/plugin-center/observability/metrics-plugin">開啓暴露 ShenYu Metrics 插件暴露其數據接口</a>。您可以點擊 “<i>新建 ShenYu</i>” 並進行配置，或者選擇“<i>更多操作</i>”，導入已有配置。
+helpLink:
+  zh-CN: https://hertzbeat.com/zh-cn/docs/help/shenyu
+  en-US: https://hertzbeat.com/docs/help/shenyu
 params:
   - field: host
     name:
-      zh-CN: 主机Host
-      en-US: Host
+      zh-CN: 目标Host
+      en-US: Target Host
     type: host
     required: true
   - field: port
@@ -64,7 +73,7 @@ metrics:
   - name: shenyu_request_throw_created
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: value
         type: 0
     # 监控采集使用协议 eg: sql, ssh, http, telnet, wmi, snmp, sdk
@@ -84,7 +93,7 @@ metrics:
   - name: process_cpu_seconds_total
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: value
         type: 0
         unit: s
@@ -105,7 +114,7 @@ metrics:
   - name: process_open_fds
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: value
         type: 0
     # 监控采集使用协议 eg: sql, ssh, http, telnet, wmi, snmp, sdk
@@ -125,7 +134,7 @@ metrics:
   - name: process_max_fds
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: value
         type: 0
     # 监控采集使用协议 eg: sql, ssh, http, telnet, wmi, snmp, sdk
@@ -145,7 +154,7 @@ metrics:
   - name: jvm_info
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: runtime
         type: 1
       - field: vendor
@@ -169,10 +178,10 @@ metrics:
   - name: jvm_memory_bytes_used
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: area
         type: 1
-        instance: true
+        label: true
       - field: value
         type: 0
         unit: MB
@@ -195,10 +204,10 @@ metrics:
   - name: jvm_memory_pool_bytes_used
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: pool
         type: 1
-        instance: true
+        label: true
       - field: value
         type: 0
         unit: MB
@@ -221,10 +230,10 @@ metrics:
   - name: jvm_memory_pool_bytes_committed
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: pool
         type: 1
-        instance: true
+        label: true
       - field: value
         type: 0
         unit: MB
@@ -247,10 +256,10 @@ metrics:
   - name: jvm_memory_pool_bytes_max
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: pool
         type: 1
-        instance: true
+        label: true
       - field: value
         type: 0
         unit: MB
@@ -273,10 +282,10 @@ metrics:
   - name: jvm_threads_state
     priority: 1
     fields:
-      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   instance是否为实例主键   unit:指标单位
+      # 指标信息 包括 field名称   type字段类型:0-number数字,1-string字符串   label-是否是指标标签字段   unit:指标单位
       - field: state
         type: 1
-        instance: true
+        label: true
       - field: count
         type: 0
     aliasFields:
